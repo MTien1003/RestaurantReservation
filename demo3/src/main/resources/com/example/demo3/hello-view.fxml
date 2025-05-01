@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="900.0" stylesheets="@login_screen.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="130.0" styleClass="menu_pane" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="130.0" styleClass="menu">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/com/example/demo3/bars-solid.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Text lineSpacing="20.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="190.0" prefHeight="40.0" prefWidth="130.0" styleClass="menu">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/com/example/demo3/credit-card-solid.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Text lineSpacing="20.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Orders">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="276.0" prefHeight="40.0" prefWidth="130.0" styleClass="menu">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/com/example/demo3/chart-pie-solid.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Text lineSpacing="20.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Insight">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="296.0" prefHeight="40.0" prefWidth="130.0" styleClass="menu">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/com/example/demo3/cart-shopping-solid.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Text lineSpacing="20.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Products">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="316.0" prefHeight="40.0" prefWidth="130.0" styleClass="menu">
+               <children>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/com/example/demo3/gear-solid.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Text lineSpacing="20.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Setting">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="770.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="70.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" styleClass="search_bar">
+                     <children>
+                        <TextField layoutX="14.0" layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" promptText="search" styleClass="search_field" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="163.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" styleClass="search_icon">
+                           <image>
+                              <Image url="@../../../../java/com/example/demo3/magnifying-glass-solid.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Pane>
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" styleClass="icon-circle">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="7.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../java/com/example/demo3/user-solid.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Pane>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
