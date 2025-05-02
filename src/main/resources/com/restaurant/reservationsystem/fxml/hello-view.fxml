@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.HelloController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.reservationsystem.controllers.LoginController">
     <children>
         <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" StackPane.alignment="CENTER_LEFT">
             <image>
@@ -31,17 +31,17 @@
                                 <Font size="18.0" />
                             </font>
                         </Text>
-                        <TextField layoutX="68.0" layoutY="131.0" prefWidth="250.0" promptText="Username" styleClass="text-field" />
-                        <PasswordField layoutX="68.0" layoutY="200.0" prefWidth="250.0" promptText="Password" styleClass="password-field" />
-                        <Button layoutX="68.0" layoutY="257.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" styleClass="login_button" text="Login" />
+                        <TextField fx:id="username" layoutX="68.0" layoutY="131.0" prefWidth="250.0" promptText="Username" styleClass="text-field" />
+                        <PasswordField fx:id="password" layoutX="68.0" layoutY="200.0" prefWidth="250.0" promptText="Password" styleClass="password-field" />
+                        <Button fx:id="loginbutton" layoutX="68.0" layoutY="257.0" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="250.0" styleClass="login_button" text="Login" />
                         <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="298.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true" styleClass="icon_image-view">
                             <image>
-                                <Image url="@lock.png" />
+                                <Image url="@../images/lock.png" />
                             </image>
                         </ImageView>
                         <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="298.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" styleClass="icon_image-view">
                             <image>
-                                <Image url="@user.png" />
+                                <Image url="@../images/user.png" />
                             </image>
                         </ImageView>
                         <CheckBox layoutX="68.0" layoutY="232.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="83.0" styleClass="check_box" text="Remeber me" textFill="WHITE">
@@ -54,9 +54,10 @@
                                 <Font size="10.0" />
                             </font>
                         </Hyperlink>
+                  <Button layoutX="348.0" layoutY="3.0" mnemonicParsing="false" onAction="#close" prefHeight="18.0" prefWidth="52.0" text="X" textFill="#050505" />
                     </children>
                 </Pane>
-                <Pane fx:id="paneCover" prefHeight="400.0" prefWidth="200.0" styleClass="pane_cover" stylesheets="@RRlogin.css">
+                <Pane fx:id="paneCover" prefHeight="400.0" prefWidth="200.0" styleClass="pane_cover" stylesheets="@../css/RRlogin.css">
                     <children>
                         <ImageView fitHeight="400.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -70,6 +71,6 @@
         </HBox>
     </children>
    <stylesheets>
-      <URL value="@RRlogin.css" />
+      <URL value="@../css/RRlogin.css" />
    </stylesheets>
 </StackPane>
