@@ -1,0 +1,65 @@
+.menu_pane {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 0px 3px 0px 0px;
+}
+
+.root {
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-background-color: white
+}
+
+.menu {
+    -fx-background-color: white;
+
+}
+
+.menu:hover {
+    -fx-background-color: #D0CFCF;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+    -fx-border-color: black;
+}
+
+.icon-circle {
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+}
+
+.search_bar{
+    -fx-background-color: transparent ;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-border-color: gray;
+    -fx-border-radius: 20px;
+}
+
+.search_field{
+    -fx-background-color: transparent;
+}
+
+.search_icon{
+    -fx-background-color: gray;
+}
+
+.dashboard_inner:hover {
+    -fx-background-color: rgb(207, 205, 205);
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-color: gray;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.dashboard {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-color: black;
+    -fx-font-size: 15px;
+}

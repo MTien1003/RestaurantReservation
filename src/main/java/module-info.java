@@ -10,4 +10,6 @@ module com.restaurant.reservationsystem {
     exports com.restaurant.reservationsystem;
     opens com.restaurant.reservationsystem.controllers to javafx.fxml;
     exports com.restaurant.reservationsystem.controllers to javafx.fxml;
+
+    opens com.restaurant.reservationsystem.models to javafx.base;
 }

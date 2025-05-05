@@ -3,9 +3,13 @@ package com.restaurant.reservationsystem.controllers;
 import com.restaurant.reservationsystem.config.DatabaseConfig;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import javax.swing.text.html.ImageView;
 import java.sql.Connection;
@@ -56,17 +60,22 @@ public  class LoginController {
                 alert.showAndWait();
             } else {
                 if (result.next()) {
+                    data.username = username.getText(); // Store the username in the data class
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
                     alert.setHeaderText(null);
                     alert.setContentText("Login Successful");
                     alert.showAndWait();
+
+                    loginbutton.getScene().getWindow().hide(); // Hides the current window
                     // Load the next scene
-                    // FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/restaurant/reservationsystem/fxml/nextScene.fxml"));
-                    // Parent root = loader.load();
-                    // Scene scene = new Scene(root);
-                    // Stage stage = (Stage) loginbutton.getScene().getWindow();
-                    // stage.setScene(scene);
+                    Parent root = FXMLLoader.load(getClass().getResource("/com/restaurant/reservationsystem/fxml/dashboard.fxml"));
+                    Stage stage=new Stage();
+                    Scene scene=new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+
+
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
