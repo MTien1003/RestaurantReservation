@@ -3,6 +3,7 @@ package com.restaurant.reservationsystem.models;
 import javafx.beans.property.*;
 
 public class Product {
+    private int id;
    private String productId;
    private String name;
     private String type;
@@ -16,6 +17,9 @@ public class Product {
         this.type = type;
         this.price = price;
         this.quantity = quantity;
+    }
+    public int getId(){
+        return id;
     }
     public String getProductId() {
         return productId;

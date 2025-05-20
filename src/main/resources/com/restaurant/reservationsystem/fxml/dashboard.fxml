@@ -174,7 +174,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="availableFD_form" layoutX="142.0" layoutY="42.0" prefHeight="552.0" prefWidth="894.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="availableFD_form" layoutX="142.0" layoutY="42.0" prefHeight="552.0" prefWidth="894.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="27.0" layoutY="13.0" prefHeight="530.0" prefWidth="240.0" stylesheets="@../css/dashboard.css">
                                  <styleClass>
@@ -219,7 +219,7 @@
                               <Separator layoutX="277.0" layoutY="14.0" orientation="VERTICAL" prefHeight="531.0" prefWidth="6.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="order_form" layoutX="104.0" layoutY="86.0" prefHeight="552.0" prefWidth="894.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="order_form" layoutX="104.0" layoutY="86.0" prefHeight="552.0" prefWidth="894.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="18.0" layoutY="13.0" prefHeight="522.0" prefWidth="488.0" stylesheets="@../css/dashboard.css">
                                  <styleClass>
@@ -227,7 +227,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="order_tableView" layoutX="14.0" layoutY="21.0" prefHeight="487.0" prefWidth="458.0">
+                                    <TableView fx:id="order_tableView" layoutX="14.0" layoutY="21.0" onMouseClicked="#orderSelectData" prefHeight="487.0" prefWidth="458.0">
                                       <columns>
                                         <TableColumn fx:id="order_col_productID" prefWidth="75.0" text="ProductID" />
                                         <TableColumn fx:id="order_col_productName" prefWidth="120.79998016357422" text="ProductName" />
@@ -250,14 +250,16 @@
                                     <ComboBox fx:id="order_productName" layoutX="119.0" layoutY="97.0" onMouseClicked="#orderProductName" prefWidth="150.0" promptText="Choose..." />
                                     <Label layoutX="51.0" layoutY="154.0" text="Quantity" />
                                     <Spinner fx:id="order_quantity" layoutX="118.0" layoutY="150.0" onMouseClicked="#orderQuantity" />
-                                    <Button fx:id="order_addBtn" layoutX="237.0" layoutY="208.0" mnemonicParsing="false" text="Add" />
+                                    <Button fx:id="order_addBtn" layoutX="237.0" layoutY="208.0" mnemonicParsing="false" onAction="#orderAdd" text="Add" />
                                     <Label layoutX="72.0" layoutY="261.0" text="Total" />
                                     <Label layoutX="72.0" layoutY="301.0" text="Amount" />
                                     <Label fx:id="order_total" layoutX="123.0" layoutY="261.0" prefHeight="18.0" prefWidth="126.0" text="\$0.0" />
-                                    <TextField fx:id="order_amount" layoutX="107.0" layoutY="297.0" promptText="\$0.0" />
-                                    <Button fx:id="order_payBtn" layoutX="54.0" layoutY="371.0" mnemonicParsing="false" text="Pay" />
+                                    <TextField fx:id="order_amount" layoutX="137.0" layoutY="297.0" onAction="#orderAmount" promptText="\$0.0" />
+                                    <Button fx:id="order_payBtn" layoutX="54.0" layoutY="371.0" mnemonicParsing="false" onAction="#orderPay" text="Pay" />
                                     <Button fx:id="order_receiptBtn" layoutX="156.0" layoutY="373.0" mnemonicParsing="false" text="Receipt" />
-                                    <Button fx:id="order_removeBtn" layoutX="54.0" layoutY="431.0" mnemonicParsing="false" text="Remove" />
+                                    <Button fx:id="order_removeBtn" layoutX="54.0" layoutY="431.0" mnemonicParsing="false" onAction="#orderRemove" text="Remove" />
+                                    <Label layoutX="74.0" layoutY="339.0" text="Balance:" />
+                                    <Label fx:id="order_balance" layoutX="140.0" layoutY="338.0" prefHeight="18.0" prefWidth="126.0" text="\$0.0" />
                                  </children>
                               </AnchorPane>
                               <Separator layoutX="516.0" layoutY="13.0" orientation="VERTICAL" prefHeight="526.0" prefWidth="0.0" />
