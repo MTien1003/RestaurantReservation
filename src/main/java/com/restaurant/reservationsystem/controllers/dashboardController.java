@@ -1,6 +1,7 @@
 package com.restaurant.reservationsystem.controllers;
 
 import com.restaurant.reservationsystem.config.DatabaseConfig;
+import com.restaurant.reservationsystem.models.Admin;
 import com.restaurant.reservationsystem.models.Product;
 import com.restaurant.reservationsystem.models.categories;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -174,12 +176,16 @@ public class dashboardController implements Initializable  {
     @FXML
     private Label order_balance;
 
+   // @FXML
+    //private ImageView imagetest;
+    //imagetest.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/com/restaurant/reservationsystem/images/logo.png")));
+
     public void close(){
         System.exit(0);
     }
 
     public void displayUsername(){
-        String user = data.username;
+        String user = Admin.username;
         user=user.substring(0,1).toUpperCase()+user.substring(1);
         username.setText(user);
     }
@@ -256,20 +262,23 @@ public class dashboardController implements Initializable  {
     }
 
     public void dashboardTi(){
-        java.util.Date date = new java.util.Date();
-        java.sql.Date sqlDate=new java.sql.Date(date.getTime());
 
-        String sql="SELECT SUM(total) AS total_price FROM product_info WHERE date='"+sqlDate+"'";
+
+        String sql="SELECT SUM(total) AS total_price FROM product_info WHERE date= ?";
         connect =DatabaseConfig.getConnection();
         double ti=0;
 
         try {
-            statement = connect.createStatement();
-            result = statement.executeQuery(sql);
+            java.util.Date date = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            prepare = connect.prepareStatement(sql);
+            prepare.setDate(1,sqlDate);
+            result= prepare.executeQuery();
+
             if (result.next()) {
                 ti = result.getDouble("total_price");
             }
-            dashboard_Tincome.setText("$" + String.valueOf(ti));
+            dashboard_Ti.setText("$" + ti);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -721,6 +730,7 @@ public class dashboardController implements Initializable  {
             Product prod;
             while(result.next()){
                 prod =new Product(
+                        result.getInt("id"),
                         result.getString("product_id"),
                         result.getString("product_name"),
                         result.getString("type"),
@@ -740,20 +750,19 @@ public class dashboardController implements Initializable  {
 
     public void orderRemove() {
 
-        String sql = "DELETE FROM product WHERE id = ?";
+        String sql = "DELETE FROM product WHERE id = "+item;
 
         connect = DatabaseConfig.getConnection();
 
         try {
             Alert alert;
 
-            if (item == 0 ) {
+            if (item == 0) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please select the item first");
                 alert.showAndWait();
-                return;
             } else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
@@ -928,6 +937,7 @@ public class dashboardController implements Initializable  {
             dashboardTincome();
             dashboardICC();
             dashboardNOOChart();
+            dashboardTi();
         }
     }
 
@@ -957,6 +967,7 @@ public class dashboardController implements Initializable  {
         orderDisplayData();
         orderDisplayTotal();
     }
+
 
 
 

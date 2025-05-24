@@ -1,6 +1,7 @@
 package com.restaurant.reservationsystem.controllers;
 
 import com.restaurant.reservationsystem.config.DatabaseConfig;
+import com.restaurant.reservationsystem.models.Admin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,7 +61,7 @@ public  class LoginController {
                 alert.showAndWait();
             } else {
                 if (result.next()) {
-                    data.username = username.getText(); // Store the username in the data class
+                    Admin.username = username.getText(); // Store the username in the data class
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
                     alert.setHeaderText(null);
