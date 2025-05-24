@@ -1,9 +1,11 @@
-package com.restaurant.reservationsystem.controllers;
-
-import com.restaurant.reservationsystem.config.DatabaseConfig;
+package com.restaurant.reservationsystem.controllers;import com.restaurant.reservationsystem.config.DatabaseConfig;
+import com.restaurant.reservationsystem.dao.availableDAO;
+import com.restaurant.reservationsystem.dao.dashboardDAO;
+import com.restaurant.reservationsystem.dao.orderDAO;
 import com.restaurant.reservationsystem.models.Admin;
 import com.restaurant.reservationsystem.models.Product;
 import com.restaurant.reservationsystem.models.categories;
+import com.restaurant.reservationsystem.utils.AlertUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -17,20 +19,16 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.cell.PropertyValueFactory;import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.sql.*;
 
 public class dashboardController implements Initializable  {
@@ -90,13 +88,13 @@ public class dashboardController implements Initializable  {
     private Button close;
 
     @FXML
-    private BarChart<?, ?> dashboard_ICChart;
+    private BarChart<String, Double> dashboard_ICChart;
 
     @FXML
     private Label dashboard_NC;
 
     @FXML
-    private BarChart<?, ?> dashboard_NOCChart;
+    private BarChart<String, Integer> dashboard_NOCChart;
 
     @FXML
     private Label dashboard_Ti;
@@ -144,10 +142,10 @@ public class dashboardController implements Initializable  {
     private Button order_payBtn;
 
     @FXML
-    private ComboBox<?> order_productID;
+    private ComboBox<String> order_productID;
 
     @FXML
-    private ComboBox<?> order_productName;
+    private ComboBox<String> order_productName;
 
     @FXML
     private Spinner<Integer> order_quantity;
@@ -176,9 +174,6 @@ public class dashboardController implements Initializable  {
     @FXML
     private Label order_balance;
 
-   // @FXML
-    //private ImageView imagetest;
-    //imagetest.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/com/restaurant/reservationsystem/images/logo.png")));
 
     public void close(){
         System.exit(0);
@@ -215,7 +210,47 @@ public class dashboardController implements Initializable  {
         });
     }
 
-    //available food/drinks
+
+    private Connection connect;
+    private PreparedStatement prepare;
+    private Statement statement;
+    private ResultSet result;
+
+    private final dashboardDAO dashboardDAO = new dashboardDAO();
+
+    public void dashboardNC() {
+        int totalCount = dashboardDAO.getTotalCustomerCount();
+        dashboard_NC.setText(String.valueOf(totalCount));
+    }
+    public void dashboardTi() {
+        double totalIncome = dashboardDAO.getTotalIncomeForToday();
+        dashboard_Ti.setText("$" + totalIncome);
+    }
+
+    public void dashboardTincome() {
+        double totalIncome = dashboardDAO.getTotalIncome();
+        dashboard_Tincome.setText("$" + totalIncome);
+    }
+
+    public void dashboardNOOChart() {
+        dashboard_NOCChart.getData().clear();
+        Map<String, Integer> ordersByDate = dashboardDAO.getNumberOfOrdersByDate();
+        XYChart.Series<String, Integer> chart = new XYChart.Series<>();
+
+        ordersByDate.forEach((date, count) -> chart.getData().add(new XYChart.Data<>(date, count)));
+        dashboard_NOCChart.getData().add(chart);
+    }
+
+    public void dashboardICC() {
+        dashboard_ICChart.getData().clear();
+        Map<String, Double> incomeChartData = dashboardDAO.getIncomeChartData();
+        XYChart.Series<String, Double> chart = new XYChart.Series<>();
+
+        incomeChartData.forEach((date, total) -> chart.getData().add(new XYChart.Data<>(date, total)));
+        dashboard_ICChart.getData().add(chart);
+    }
+
+//####################################################################################################################//
     private String[] status={"Available","Not Available"};
     public void availableFDStatus(){
         List<String> listStatus= new ArrayList<>();
@@ -237,241 +272,68 @@ public class dashboardController implements Initializable  {
     }
 
 
+    private  final availableDAO availableDAO=new availableDAO();
 
-    private Connection connect;
-    private PreparedStatement prepare;
-    private Statement statement;
-    private ResultSet result;
-
-    public void dashboardNC(){
-        String sql="SELECT COUNT(customer_id) AS total_count FROM product_info";
-        int nc=0;
-        connect=DatabaseConfig.getConnection();
-        try{
-            statement=connect.createStatement();
-            result=statement.executeQuery(sql);
-
-            if(result.next()){
-                nc=result.getInt("total_count");
-            }
-
-            dashboard_NC.setText(String.valueOf(nc));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void dashboardTi(){
-
-
-        String sql="SELECT SUM(total) AS total_price FROM product_info WHERE date= ?";
-        connect =DatabaseConfig.getConnection();
-        double ti=0;
-
-        try {
-            java.util.Date date = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            prepare = connect.prepareStatement(sql);
-            prepare.setDate(1,sqlDate);
-            result= prepare.executeQuery();
-
-            if (result.next()) {
-                ti = result.getDouble("total_price");
-            }
-            dashboard_Ti.setText("$" + ti);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void dashboardTincome(){
-        String sql="SELECT SUM(total) AS total_price FROM product_info";
-        connect=DatabaseConfig.getConnection();
-        double ti=0;
-        try {
-            statement = connect.createStatement();
-            result = statement.executeQuery(sql);
-            if (result.next()) {
-                ti = result.getDouble("total_price");
-            }
-            dashboard_Tincome.setText("$" + String.valueOf(ti));
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void dashboardNOOChart(){
-        try{
-            dashboard_NOCChart.getData().clear();
-            String sql="SELECT date, COUNT(customer_id) AS total_count FROM product_info GROUP BY date ORDER BY date ASC ";
-            connect=DatabaseConfig.getConnection();
-            XYChart.Series chart=new XYChart.Series();
-
-            prepare=connect.prepareStatement(sql);
-            result=prepare.executeQuery();
-
-            while (result.next()){
-                chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
-
-            }
-            dashboard_NOCChart.getData().add(chart);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void dashboardICC(){
-        dashboard_ICChart.getData().clear();
-
-        String sql = "SELECT date, SUM(total) AS total_price FROM product_info GROUP BY date ORDER BY date ASC ";
-
-        connect= DatabaseConfig.getConnection();
-
-        try {
-
-            XYChart.Series chart = new XYChart.Series();
-
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-
-            while (result.next()) {
-
-                chart.getData().add(new XYChart.Data(result.getString(1), result.getDouble(2)));
-
-            }
-
-            dashboard_ICChart.getData().add(chart);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void availableFDAdd(){
-        String sql="INSERT INTO category (product_id,product_name,product_type,price,status) VALUES (?,?,?,?,?)";
-        connect= DatabaseConfig.getConnection();
-        try{
-            prepare=connect.prepareStatement(sql);
-            prepare.setString(1,availableFD_productID.getText());
-            prepare.setString(2,availableFD_productName.getText());
-            prepare.setString(3,(String) availableFD_productType.getSelectionModel().getSelectedItem());
-            prepare.setString(4,availableFD_productPrice.getText());
-            prepare.setString(5,(String) availableFD_productStatus.getSelectionModel().getSelectedItem());
-
-            Alert alert;
-            if(availableFD_productID.getText().isEmpty()||
-                    availableFD_productName.getText().isEmpty()||
-                    availableFD_productPrice.getText().isEmpty()||
-                    availableFD_productType.getSelectionModel().getSelectedItem()==null||
-                    availableFD_productStatus.getSelectionModel().getSelectedItem()==null){
-                alert=new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all fields");
-                alert.showAndWait();
-            }
-            else{
-                String checkData="SELECT product_id FROM category WHERE product_id= '"+availableFD_productID.getText()+"'";
-                connect=DatabaseConfig.getConnection();
-                statement=connect.createStatement();
-                result=statement.executeQuery(checkData);
-                if(result.next()){
-                    alert=new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Product ID already exists");
-                    alert.showAndWait();
-                }
-                else{
-                    prepare.executeUpdate();
-                    alert=new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Success");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Product added successfully");
-                    alert.showAndWait();
-
-                    //To show the data
+    public void availableFDAdd() {
+        String productId = availableFD_productID.getText();
+        String productName = availableFD_productName.getText();
+        String productType = (String) availableFD_productType.getSelectionModel().getSelectedItem();
+        String productPrice = availableFD_productPrice.getText();
+        String productStatus = (String) availableFD_productStatus.getSelectionModel().getSelectedItem();
+        if (productId.isEmpty() || productName.isEmpty() || productPrice.isEmpty() || productType == null || productStatus == null) {
+            AlertUtils.showErrorAlert("Error", "Please fill all fields");
+        } else {
+            if (availableDAO.isProductIdExists(productId)) {
+                AlertUtils.showErrorAlert("Error", "Product ID already exists");
+            } else {
+                boolean success = availableDAO.addProduct(productId, productName, productType, productPrice, productStatus);
+                if (success) {
+                    AlertUtils.showInfoAlert("Success", "Product added successfully");
                     availableFDShowData();
-                    //To clear the fields
                     availableFDClear();
                 }
             }
-        }catch (Exception e){
-            e.printStackTrace();}
+        }
     }
 
-    public void availableFDUpdate(){
-        String sql="UPDATE category SET product_name=?,product_type=?,price=?,status=? WHERE product_id=?";
-        connect=DatabaseConfig.getConnection();
-        try{
-            prepare=connect.prepareStatement(sql);
-            prepare.setString(1,availableFD_productName.getText());
-            prepare.setString(2,(String) availableFD_productType.getSelectionModel().getSelectedItem());
-            prepare.setString(3,availableFD_productPrice.getText());
-            prepare.setString(4,(String) availableFD_productStatus.getSelectionModel().getSelectedItem());
-            prepare.setString(5,availableFD_productID.getText());
 
-            Alert alert;
-            if(availableFD_productID.getText().isEmpty()||
-                    availableFD_productName.getText().isEmpty()||
-                    availableFD_productPrice.getText().isEmpty()||
-                    availableFD_productType.getSelectionModel().getSelectedItem()==null||
-                    availableFD_productStatus.getSelectionModel().getSelectedItem()==null){
-                alert=new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill all fields");
-                alert.showAndWait();
-            }
-            else{
-                prepare.executeUpdate();
-                alert=new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText(null);
-                alert.setContentText("Product updated successfully");
-                alert.showAndWait();
+    public void availableFDUpdate() {
+        String productId = availableFD_productID.getText();
+        String productName = availableFD_productName.getText();
+        String productType = (String)availableFD_productType.getSelectionModel().getSelectedItem();
+        String productPrice = availableFD_productPrice.getText();
+        String productStatus = (String)availableFD_productStatus.getSelectionModel().getSelectedItem();
 
-                //To show the data
+        Alert alert;
+        if (productId.isEmpty() || productName.isEmpty() || productPrice.isEmpty() || productType == null || productStatus == null) {
+            AlertUtils.showErrorAlert("Error", "Please fill all fields");
+        } else {
+            boolean success = availableDAO.updateProduct(productId, productName, productType, productPrice, productStatus);
+            if (success) {
+                AlertUtils.showInfoAlert("Success", "Product updated successfully");
                 availableFDShowData();
-                //To clear the fields
                 availableFDClear();
+            } else {
+                AlertUtils.showErrorAlert("Error", "Failed to update product");
             }
-        }catch (Exception e){
-            e.printStackTrace();}
+        }
     }
 
-    public void availableFDDelete(){
-        String sql="DELETE FROM category WHERE product_id=?";
-        connect=DatabaseConfig.getConnection();
-        try{
-            prepare=connect.prepareStatement(sql);
-            prepare.setString(1,availableFD_productID.getText());
+    public void availableFDDelete() {
+        String productId = availableFD_productID.getText();
 
-            Alert alert;
-            if(availableFD_productID.getText().isEmpty()){
-                alert=new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Please select a product to delete");
-                alert.showAndWait();
-            }
-            else{
-                prepare.executeUpdate();
-                alert=new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText(null);
-                alert.setContentText("Product deleted successfully");
-                alert.showAndWait();
-
-                //To show the data
+        if (productId.isEmpty()) {
+            AlertUtils.showErrorAlert("Error", "Please select a product to delete");
+        } else {
+            boolean success = availableDAO.deleteProduct(productId);
+            if (success) {
+                AlertUtils.showInfoAlert("Success", "Product deleted successfully");
                 availableFDShowData();
-                //To clear the fields
                 availableFDClear();
+            } else {
+                AlertUtils.showErrorAlert("Error", "Failed to delete product");
             }
-        }catch (Exception e){
-            e.printStackTrace();}
-
+        }
     }
 
     public void availableFDClear(){
@@ -480,10 +342,7 @@ public class dashboardController implements Initializable  {
         availableFD_productPrice.setText("");
         availableFD_productStatus.getSelectionModel().clearSelection();
         availableFD_productType.getSelectionModel().clearSelection();
-
-
     }
-
 
     private ObservableList<categories> availableFDListData;
     public void availableFDShowData(){
@@ -493,30 +352,13 @@ public class dashboardController implements Initializable  {
         availableFD_col_Type.setCellValueFactory(new PropertyValueFactory<>("type"));
         availableFD_col_Price.setCellValueFactory(new PropertyValueFactory<>("price"));
         availableFD_col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
-
         availableFD_tableView.setItems(availableFDListData);
     }
 
-
-    public ObservableList<categories> availableFDList(){
-        ObservableList<categories> availableFDList= FXCollections.observableArrayList();
-        String sql="SELECT * FROM category";
-        connect=DatabaseConfig.getConnection();
-        try{
-            statement=connect.createStatement();
-            result=statement.executeQuery(sql);
-            while(result.next()){
-                availableFDList.add(new categories(result.getString("product_id"),
-                        result.getString("product_name"),
-                        result.getString("product_type"),
-                        result.getString("price"),
-                        result.getString("status")));
-            }
-        }catch (Exception e){
-            e.printStackTrace();}
-        return availableFDList;
+    public ObservableList<categories> availableFDList() {
+        return availableDAO.getAllCategories();
     }
-// an san pham ben table view thi hien ben textfield
+
     public void availableFDSelect(){
         categories catDate=availableFD_tableView.getSelectionModel().getSelectedItem();
         int num=availableFD_tableView.getSelectionModel().getSelectedIndex();
@@ -529,24 +371,14 @@ public class dashboardController implements Initializable  {
 
     }
 
-
-
-
-
     public void availableFDSearch() {
-
         FilteredList<categories> filter = new FilteredList<>(availableFDListData, e -> true);
-
-        availableFD_search.textProperty().addListener((observabl, oldValue, newValue) -> {
-
+        availableFD_search.textProperty().addListener((observable, oldValue, newValue) -> {
             filter.setPredicate(predicateCategories -> {
-
                 if (newValue==null || newValue.isEmpty()) {
                     return true;
                 }
-
                 String searchKey = newValue.toLowerCase();
-
                 if (predicateCategories.getProductId().toLowerCase().contains(searchKey)) {
                     return true;
                 } else if (predicateCategories.getName().toLowerCase().contains(searchKey)) {
@@ -562,53 +394,36 @@ public class dashboardController implements Initializable  {
                 }
             });
         });
-
         SortedList<categories> sortList = new SortedList<>(filter);
-
         sortList.comparatorProperty().bind(availableFD_tableView.comparatorProperty());
         availableFD_tableView.setItems(sortList);
-
     }
-
-    public void orderAdd(){
-        orderCustomerId();
-        orderTotal();
-        String sql="INSERT INTO product"
-                + "(customer_id,product_id, product_name,type,price,quantity,date)"
-                + "VALUES (?,?,?,?,?,?,?)";
-        connect=DatabaseConfig.getConnection();
-        try{
-            String orderType="";
-            double orderPrice=0;
-            String checkData="SELECT * FROM category WHERE product_id= '"+order_productID.getSelectionModel().getSelectedItem()+"'";
-            statement=connect.createStatement();
-            result=statement.executeQuery(checkData);
-            if(result.next()){
-                orderType=result.getString("type");
-                orderPrice=result.getDouble("price");
-            }
-
-            prepare=connect.prepareStatement(sql);
-            prepare.setString(1,String.valueOf(customerId));
-            prepare.setString(2,(String) order_productID.getSelectionModel().getSelectedItem());
-            prepare.setString(3,(String) order_productName.getSelectionModel().getSelectedItem());
-            prepare.setString(4,orderType);
-
-            double totalPrice=orderPrice*qty;
-            prepare.setString(5,String.valueOf(totalPrice));
-            prepare.setString(6,String.valueOf(qty));
-
-            java.util.Date date = new java.util.Date();
-            java.sql.Date sqlDate=new java.sql.Date(date.getTime());
-            prepare.setString(7,String.valueOf(sqlDate));
-            prepare.executeUpdate();
-
+//---------------------------------------------------------------------------------------------------------------------//
+    private final orderDAO orderDAO = new orderDAO(); // Ensure this is declared
+    public void orderAdd() {
+        String productId = order_productID.getSelectionModel().getSelectedItem();
+        String productName = order_productName.getSelectionModel().getSelectedItem();
+        if (productId == null || productName == null) {
+            AlertUtils.showErrorAlert("Error", "Please select a product and quantity.");
+            return;
+        }
+        // Use the instance of orderDAO to call the method
+        Map<String, Object> productDetails = orderDAO.getProductDetails(productId);
+        if (productDetails == null) {
+            AlertUtils.showErrorAlert("Error", "Product details not found.");
+            return;
+        }
+        double orderPrice = (double) productDetails.get("price");
+        double totalPrice = orderPrice * qty;
+        boolean success = orderDAO.addOrder(customerId, productId, productName,
+                (String) productDetails.get("type"),
+                totalPrice, qty, new java.sql.Date(System.currentTimeMillis()));
+        if (success) {
             orderDisplayTotal();
             orderDisplayData();
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            AlertUtils.showInfoAlert("Success", "Order added successfully.");
+        } else {
+            AlertUtils.showErrorAlert("Error", "Failed to add order.");
         }
     }
 
@@ -616,74 +431,42 @@ public class dashboardController implements Initializable  {
         orderCustomerId();
         orderTotal();
 
-        String sql="INSERT INTO product_info(customer_id,total,date) VALUES(?,?,?)";
-        connect=DatabaseConfig.getConnection();
-        try {
-            Alert alert;
-            if (balance == 0 || String.valueOf(balance) == "$0.0" || String.valueOf(balance) == null
-                    || totalP == 0 || String.valueOf(totalP) == "$0.0" || String.valueOf(totalP) == null) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Invalid :3");
-                alert.showAndWait();
-            }
-            else{
-                alert =new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to pay?");
-                Optional<ButtonType> option=alert.showAndWait();
-                if (option.get().equals(ButtonType.OK)) {
-                    prepare = connect.prepareStatement(sql);
-                    prepare.setString(1, String.valueOf(customerId));
-                    prepare.setString(2, String.valueOf(totalP));
-
-                    java.util.Date date = new java.util.Date();
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
-                    prepare.setString(3, String.valueOf(sqlDate));
-
-                    prepare.executeUpdate();
-
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successful!");
-                    alert.showAndWait();
-
-                    order_total.setText("$0.0");
-                    order_balance.setText("$0.0");
-                    order_amount.setText("");
-
-                } else {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Cancelled!");
-                    alert.showAndWait();
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        if (balance < 0 || totalP <= 0) {
+            AlertUtils.showErrorAlert("Error", "Invalid input.");
+            return;
         }
+
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Are you sure you want to pay?");
+        Optional<ButtonType> option = confirmationAlert.showAndWait();
+
+        if (option.isPresent() && option.get().equals(ButtonType.OK)) {
+            boolean success = orderDAO.addPayment(customerId, totalP, new Date(System.currentTimeMillis()));
+            if (success) {
+                AlertUtils.showInfoAlert("Success", "Payment successful!");
+                resetOrderFields();
+            } else {
+                AlertUtils.showErrorAlert("Error", "Payment failed.");
+            }
+        } else {
+            AlertUtils.showInfoAlert("Information", "Payment cancelled.");
+        }
+    }
+    private void resetOrderFields() {
+        order_total.setText("$0.0");
+        order_balance.setText("$0.0");
+        order_amount.setText("");
+        order_tableView.getItems().clear();
+        orderDisplayData();
+
     }
 
     private double totalP=0;
     public void orderTotal(){
         orderCustomerId();
-        String sql="SELECT SUM(price) AS total_price FROM product WHERE customer_id= "+customerId;
-        connect=DatabaseConfig.getConnection();
-        try {
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-
-            if (result.next()) {
-                totalP = result.getDouble("total_price");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        totalP= orderDAO.getTotalPrice(customerId);
     }
 
 
@@ -719,83 +502,39 @@ public class dashboardController implements Initializable  {
     }
 
     public ObservableList<Product> orderListData(){
-
         orderCustomerId();
-        ObservableList<Product> listData= FXCollections.observableArrayList();
-        String sql="SELECT * FROM product WHERE customer_id= "+customerId;
-        connect=DatabaseConfig.getConnection();
-        try{
-            prepare=connect.prepareStatement(sql);
-            result=prepare.executeQuery();
-            Product prod;
-            while(result.next()){
-                prod =new Product(
-                        result.getInt("id"),
-                        result.getString("product_id"),
-                        result.getString("product_name"),
-                        result.getString("type"),
-                        result.getDouble("price"),
-                        result.getInt("quantity"));
-                System.out.println(result.getString("type"));
-                listData.add(prod);
-
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return listData;
+        return orderDAO.getOrderListData(customerId);
 
     }
 
+
+
+
     public void orderRemove() {
+        if (item == 0) {
+            AlertUtils.showErrorAlert("Error Message", "Please select the item first");
+            return;
+        }
 
-        String sql = "DELETE FROM product WHERE id = "+item;
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation Message");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Are you sure you want to Remove Item: " + item + "?");
+        Optional<ButtonType> option = confirmationAlert.showAndWait();
 
-        connect = DatabaseConfig.getConnection();
-
-        try {
-            Alert alert;
-
-            if (item == 0) {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please select the item first");
-                alert.showAndWait();
+        if (option.isPresent() && option.get().equals(ButtonType.OK)) {
+            boolean success = orderDAO.removeOrder(item);
+            if (success) {
+                AlertUtils.showInfoAlert("Information Message", "Successfully Removed!");
+                orderDisplayData();
+                orderDisplayTotal();
+                order_amount.setText("");
+                order_balance.setText("$0.0");
             } else {
-                alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to Remove Item: " + item + "?");
-                Optional<ButtonType> option = alert.showAndWait();
-
-                if (option.get().equals(ButtonType.OK)) {
-                    statement = connect.createStatement();
-                    statement.executeUpdate(sql);
-
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Removed!");
-                    alert.showAndWait();
-
-                    orderDisplayData();
-                    orderDisplayTotal();
-
-                    order_amount.setText("");
-                    order_balance.setText("$0.0");
-
-                } else {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Cancelled!");
-                    alert.showAndWait();
-                }
+                AlertUtils.showErrorAlert("Error Message", "Failed to remove the item.");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            AlertUtils.showInfoAlert("Information Message", "Cancelled!");
         }
     }
 
@@ -830,68 +569,21 @@ public class dashboardController implements Initializable  {
 
     private  int customerId;
     public void orderCustomerId(){
-        String sql="SELECT customer_id FROM product";
-        connect=DatabaseConfig.getConnection();
-        try{
-            prepare=connect.prepareStatement(sql);
-            result=prepare.executeQuery();
-            while(result.next()){
-                customerId=result.getInt("customer_id");
-            }
-            String checkData="SELECT customer_id FROM product_info" ;
-
-            statement=connect.createStatement();
-            result=statement.executeQuery(checkData);
-            int customerInfoId=0;
-            while(result.next()){
-                customerInfoId=result.getInt("customer_id");
-            }
-
-            if(customerId==0){
-                customerId+=1;
-            }
-            else if(customerId== customerInfoId){
-                customerId+=1;
-            }
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        customerId = orderDAO.getNextCustomerId();
     }
 
 
     public void orderProductId() {
-        String sql = "SELECT product_id FROM category WHERE status='Available'";
-        connect = DatabaseConfig.getConnection();
-        try {
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-            ObservableList listData = FXCollections.observableArrayList();
-            while (result.next()) {
-                listData.add(result.getString("product_id"));
-            }
-            order_productID.setItems(listData);
-            orderProductName();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ObservableList<String> productIds = orderDAO.getAvailableProductIds();
+        order_productID.setItems(productIds);
+        orderProductName();
     }
 
     public void orderProductName() {
-        String sql="SELECT product_name FROM category WHERE product_id= '"+order_productID.getSelectionModel().getSelectedItem()+"'";
-        connect=DatabaseConfig.getConnection();
-        try{
-            prepare=connect.prepareStatement(sql);
-            result=prepare.executeQuery();
-            ObservableList listData= FXCollections.observableArrayList();
-            while(result.next()){
-                listData.add(result.getString("product_name"));
-            }
-            order_productName.setItems(listData);
-    }catch (Exception e){
-            e.printStackTrace();
+        String selectedProductId = order_productID.getSelectionModel().getSelectedItem();
+        if (selectedProductId != null) {
+            ObservableList<String> productNames = orderDAO.getProductNames(selectedProductId);
+            order_productName.setItems(productNames);
         }
     }
     private SpinnerValueFactory<Integer> Spinner;
@@ -967,8 +659,6 @@ public class dashboardController implements Initializable  {
         orderDisplayData();
         orderDisplayTotal();
     }
-
-
 
 
 }
