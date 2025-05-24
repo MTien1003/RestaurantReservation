@@ -57,7 +57,7 @@
                         </Label>
                         <Button fx:id="close" mnemonicParsing="false" onAction="#close" prefHeight="0.0" prefWidth="0.0" styleClass="close" stylesheets="@../css/dashboard.css" text="X">
                            <HBox.margin>
-                              <Insets left="436.0" />
+                              <Insets left="448.0" />
                            </HBox.margin>
                         </Button>
                      </children>
