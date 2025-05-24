@@ -1,23 +1,57 @@
-.top-form{
-    -fx-background-color: #fff;
-    -fx-border-color: #000;
-    -fx-border-width: .4px .4px .2px .4px;
+.background{
+    -fx-background-radius: 32;
+    -fx-background-color: #eeeeee;
 }
-.semi-top{
-    -fx-background-color: #efefef;
-    -fx-border-color: #000;
-    -fx-border-width: .2px .4px .4px .4px;
+
+.border-bg{
+    -fx-background-color: transparent;
 }
+
+.background-cover{
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.top-form-title{
+    -fx-font-size: 32;
+    -fx-font-family: 'Segoe UI';
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
 .close{
     -fx-background-color: transparent;
     -fx-cursor: hand;
+    -fx-font-size: 32;
+    -fx-text-fill: white;
 }
 .close:hover{
-    -fx-background-color: #ee5363;
+    -fx-text-fill: rgb(255, 6, 6);
 }
+
 .nav1{
-    -fx-background-color: linear-gradient(to bottom right, #25bcbf, #3796a7);
-    -fx-background-radius: 5px;
+    -fx-background-color: linear-gradient(to bottom right, #c01821, #1f0105);
+    -fx-background-radius: 32;
+}
+
+.nav1-label-title{
+    -fx-font-size: 44;
+    -fx-text-fill: white;
+    -fx-font-weight: bolder;
+    -fx-font-family: 'Segoe UI';
+}
+
+.nav1-label-un{
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-weight: lighter;
+}
+
+.nav1-label-username{
+    -fx-text-fill: white;
+    -fx-font-size: 19.78;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-weight: bold;
 }
 
 .nav2{
@@ -25,42 +59,54 @@
     -fx-background-radius: 5px;
 }
 .shadow{
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8,0,0,0);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 16, 0.1,0,4);
 }
 .nav-btn{
-    -fx-background-color: transparent;
-    -fx-font-size: 14px;
-    -fx-font-family: Arial;
+    -fx-background-color: white;
+    -fx-background-radius: 32;
+    -fx-font-size: 20;
+    -fx-font-family: 'Segoe UI';
     -fx-cursor:hand;
-    -fx-text-fill: #000;
-    -fx-border-color: #ddd;
-    -fx-border-width: 1px;
+    -fx-text-fill: linear-gradient(to bottom right, #f92734, #8f151e);
+    -fx-alignment: left;
+    -fx-padding: 0 0 0 32;
+    -fx-font-weight: normal;
 }
 .nav-btn:hover{
-    -fx-background-color: #3796a7;
+    -fx-background-color: linear-gradient(to bottom right, #f92734, #8f151e);
     -fx-text-fill: #fff;
-    -fx-border-width: 0px;
 }
 
 .signout{
-    -fx-background-color: #3796a7;
-    -fx-background-radius: 5px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #f92734;
     -fx-cursor: hand;
+    -fx-font-size: 20;
+    -fx-padding: 8 12 8 12;
 }
 .signout:hover{
-    -fx-background-color: #25bcbf;
-}
-
-.white-bg{
-    -fx-background-color: #fff;
-    -fx-background-radius: 6px;
+    -fx-background-color: #f92734;
+    -fx-text-fill: white;
+    -fx-background-radius: 32;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8,0 ,0,2);
 }
 
 .card{
-    -fx-background-color: #3796a7;
-    -fx-background-radius: 2px 8px 8px 2px;
+    -fx-background-color: white;
+    -fx-background-radius: 32;
 }
 
+.card-title{
+    -fx-text-fill: linear-gradient(to bottom right, #c01821, #1f0105);
+    -fx-font-weight: normal;
+    -fx-font-size: 20;
+}
+
+.card-number{
+    -fx-text-fill: linear-gradient(to bottom right, #c01821, #961022);
+    -fx-font-weight: bolder;
+    -fx-font-size: 44;
+}
 
 .textfield{
     -fx-background-color: #eee;
@@ -155,3 +201,4 @@
     -fx-text-fill: #fff;
     -fx-font-family: Arial;
 }
+
