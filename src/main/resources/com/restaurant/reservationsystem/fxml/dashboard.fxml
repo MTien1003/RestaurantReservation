@@ -293,11 +293,7 @@
                               </VBox>
                            </children>
                         </AnchorPane>
-<<<<<<< Updated upstream
-                        <AnchorPane fx:id="availableFD_form" layoutX="142.0" layoutY="42.0" prefHeight="552.0" prefWidth="894.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-=======
                         <AnchorPane fx:id="availableFD_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1080.0" visible="false">
->>>>>>> Stashed changes
                            <children>
                               <AnchorPane layoutX="27.0" layoutY="13.0" prefHeight="530.0" prefWidth="240.0" stylesheets="@../css/dashboard.css">
                                  <children>
@@ -338,11 +334,7 @@
                               <String fx:value="shadow" />
                            </styleClass>
                         </AnchorPane>
-<<<<<<< Updated upstream
-                        <AnchorPane fx:id="order_form" layoutX="104.0" layoutY="86.0" prefHeight="552.0" prefWidth="894.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-=======
                         <AnchorPane fx:id="order_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1080.0" visible="false">
->>>>>>> Stashed changes
                            <children>
                               <AnchorPane layoutX="18.0" layoutY="13.0" prefHeight="522.0" prefWidth="488.0" stylesheets="@../css/dashboard.css">
                                  <styleClass>
@@ -350,17 +342,10 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-<<<<<<< Updated upstream
-                                    <TableView fx:id="order_tableView" layoutX="14.0" layoutY="21.0" onMouseClicked="#orderSelectData" prefHeight="487.0" prefWidth="458.0">
-                                      <columns>
-                                        <TableColumn fx:id="order_col_productID" prefWidth="75.0" text="ProductID" />
-                                        <TableColumn fx:id="order_col_productName" prefWidth="120.79998016357422" text="ProductName" />
-=======
                                     <TableView fx:id="order_tableView" layoutX="14.0" layoutY="21.0" prefHeight="487.0" prefWidth="458.0">
                                        <columns>
                                           <TableColumn fx:id="order_col_productID" prefWidth="75.0" text="ProductID" />
                                           <TableColumn fx:id="order_col_productName" prefWidth="120.79998016357422" text="ProductName" />
->>>>>>> Stashed changes
                                           <TableColumn fx:id="order_col_type" prefWidth="83.20001220703125" text="Type" />
                                           <TableColumn fx:id="order_col_price" prefWidth="89.5999755859375" text="Price" />
                                           <TableColumn fx:id="order_col_quantity" prefWidth="88.800048828125" text="Quantity" />
