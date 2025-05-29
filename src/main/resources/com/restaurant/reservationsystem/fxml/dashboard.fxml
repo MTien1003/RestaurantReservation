@@ -36,16 +36,8 @@
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1472.0" styleClass="background" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0" />
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1512.0" styleClass="top-form" stylesheets="@../css/dashboard.css">
                <children>
-                  <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="1512.0">
+                  <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="1512.0">
                      <children>
-                        <ImageView fitHeight="81.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/hut.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="34.0" />
-                           </HBox.margin>
-                        </ImageView>
                         <Label styleClass="top-form-title" text="Restaurant Management System">
                            <font>
                               <Font size="16.0" />
@@ -56,7 +48,7 @@
                         </Label>
                         <Button fx:id="close" mnemonicParsing="false" onAction="#close" prefHeight="0.0" prefWidth="0.0" styleClass="close" stylesheets="@../css/dashboard.css" text="X">
                            <HBox.margin>
-                              <Insets left="410.0" />
+                              <Insets left="410.0" right="32.0" />
                            </HBox.margin>
                         </Button>
                      </children>
@@ -458,7 +450,7 @@
                                        <children>
                                           <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="331.0">
                                              <children>
-                                                <Label styleClass="label-order-info" text="Customer Order's">
+                                                <Label styleClass="label-order-info" text="Customer's Order">
                                                    <VBox.margin>
                                                       <Insets top="16.0" />
                                                    </VBox.margin>
@@ -571,5 +563,3 @@
       </AnchorPane>
    </children>
 </StackPane>
-
-
