@@ -1,6 +1,12 @@
+@font-face {
+    font-family: "Lexend Deca";
+    src: url("src/main/resources/com/restaurant/reservationsystem/fonts/Lexend_Deca/LexendDeca-VariableFont_wght.ttf");
+}
+
 .background{
     -fx-background-radius: 32;
-    -fx-background-color: #eeeeee;
+    -fx-background-color: #efefef;
+    -fx-border-color: transparent;
 }
 
 .border-bg{
@@ -13,7 +19,7 @@
 
 .top-form-title{
     -fx-font-size: 32;
-    -fx-font-family: 'Segoe UI';
+    -fx-font-family: "Lexend Deca";
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
@@ -37,20 +43,20 @@
     -fx-font-size: 44;
     -fx-text-fill: white;
     -fx-font-weight: bolder;
-    -fx-font-family: 'Segoe UI';
+    -fx-font-family: "Lexend Deca";
 }
 
 .nav1-label-un{
     -fx-text-fill: white;
     -fx-font-size: 14;
-    -fx-font-family: 'Segoe UI';
+    -fx-font-family: "Lexend Deca";
     -fx-font-weight: lighter;
 }
 
 .nav1-label-username{
     -fx-text-fill: white;
     -fx-font-size: 19.78;
-    -fx-font-family: 'Segoe UI';
+    -fx-font-family: "Lexend Deca";
     -fx-font-weight: bold;
 }
 
@@ -65,10 +71,10 @@
     -fx-background-color: white;
     -fx-background-radius: 32;
     -fx-font-size: 20;
-    -fx-font-family: 'Segoe UI';
+    -fx-font-family: "Lexend Deca";
     -fx-cursor:hand;
     -fx-text-fill: linear-gradient(to bottom right, #f92734, #8f151e);
-    -fx-alignment: center-left;
+    -fx-alignment: left;
     -fx-padding: 0 0 0 32;
     -fx-font-weight: normal;
 }
@@ -83,6 +89,7 @@
     -fx-cursor: hand;
     -fx-font-size: 20;
     -fx-padding: 8 12 8 12;
+    -fx-font-family: "Lexend Deca"
 }
 .signout:hover{
     -fx-background-color: #f92734;
@@ -108,97 +115,204 @@
     -fx-font-size: 44;
 }
 
+.chart-card{
+    -fx-background-color: white;
+    -fx-background-radius: 32;
+}
+
+.chart {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-border-color: transparent;
+}
+
+.chart-title {
+    -fx-text-fill: #212121;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-legend {
+    -fx-text-fill: #212121;
+}
+
+.axis {
+    -fx-tick-label-fill: #212121;
+    -fx-axis-line-visible: true;
+    -fx-axis-line-color: #212121;
+}
+
+.chart-bar {
+    -fx-bar-fill: linear-gradient(from 0% 0% to 0% 100%, black 0%, #212121 100%);
+}
+
+.label-title{
+    -fx-font-size: 24;
+    -fx-font-family: "Lexend Deca";
+    -fx-text-fill: linear-gradient(to bottom right, #c01820, #961022);
+    -fx-font-weight: bold;
+}
+
+.label-heading{
+    -fx-font-size: 12;
+    -fx-text-fill: black;
+    -fx-font-family: "Lexend Deca"
+}
+
 .textfield{
     -fx-background-color: #eee;
-    -fx-font-family: Tahoma;
-    -fx-border-color: #25bcbf;
+    -fx-font-family: "Lexend Deca";
+    -fx-border-color: linear-gradient(from 0% 0% to 50% 100%, #D6212D 0%, #212121 100%);
     -fx-border-width: .5px;
+    -fx-border-radius: 32;
+    -fx-background-radius: 32;
 }
+
+.spinner{
+    -fx-background-color: #eee;
+    -fx-font-family: "Lexend Deca";
+    -fx-border-color: linear-gradient(from 0% 0% to 50% 100%, #D6212D 0%, #212121 100%);
+    -fx-border-width: .5px;
+    -fx-background-radius: 32;
+    -fx-border-radius: 32;
+    -fx-padding: 4;
+}
+
+.spinner .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Xóa viền và nền của nút tăng/giảm */
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.spinner:focused{
+    -fx-border-width: 1.5;
+}
+
 .textfield:focused{
     -fx-border-width: 1.5px;
     -fx-background-color: #f5f5f5;
 }
 
-.add-btn{
-    -fx-background-color: #3a6690;
-    -fx-background-radius: 4px;
+.add-update-btn{
+    -fx-background-color: transparent;
+    -fx-background-radius: 16;
     -fx-cursor: hand;
-    -fx-font-family: Arial;
-    -fx-font-size: 14px;
-    -fx-text-fill: #fff;
+    -fx-font-family: "Lexend Deca";
+    -fx-font-size: 12px;
+    -fx-text-fill: linear-gradient(from 0% 0% to 0% 100%, #212121, black);
+    -fx-border-radius: 16;
+    -fx-border-color: linear-gradient(from 0% 0% to 100% 100%, #212121, black);
+    -fx-border-width: 0.5;
 }
-.add-btn:hover{
-    -fx-background-color: #3982c5;
+.add-update-btn:hover{
+    -fx-background-color: linear-gradient(from 0% 0% to 50% 100%, #212121, black);
+    -fx-text-fill: white;
+    -fx-border-width: 1.5;
 }
 
-.update-btn{
-    -fx-background-color: #398c5e;
-    -fx-background-radius: 4px;
-    -fx-cursor: hand;
-    -fx-font-family: Arial;
-    -fx-font-size: 14px;
-    -fx-text-fill: #fff;
-}
-.update-btn:hover{
-    -fx-background-color: #30a761;
+.clear-delete-btn{
+    -fx-background-color: transparent;
+    -fx-font-family: "Lexend Deca";
+    -fx-text-fill: #D6212D;
+    -fx-font-size: 12;
 }
 
-.clear-btn{
-    -fx-background-color: #873a8e;
-    -fx-background-radius: 4px;
+.clear-delete-btn:hover{
+    -fx-text-fill: #701118;
     -fx-cursor: hand;
-    -fx-font-family: Arial;
-    -fx-font-size: 14px;
-    -fx-text-fill: #fff;
-}
-.clear-btn:hover{
-    -fx-background-color: #a432ae;
 }
 
-.delete-btn{
-    -fx-background-color: #9a3641;
-    -fx-background-radius: 4px;
-    -fx-cursor: hand;
-    -fx-font-family: Arial;
-    -fx-font-size: 14px;
-    -fx-text-fill: #fff;
-}
-.delete-btn:hover{
-    -fx-background-color: #b12d3c;
+.search-text-field{
+    -fx-background-color: transparent;
+    -fx-font-size: 12;
+    -fx-prompt-text-fill: black;
+    -fx-text-fill: black;
+    -fx-font-family: "Lexend Deca";
+    -fx-padding: 0px 0px 0px 24px;
+    -fx-background-radius: 16 0 0 16;
 }
 
 .search{
-    -fx-background-color: #f5f5f5;
-    -fx-border-width: 1.2px;
-    -fx-border-radius: 6px;
-    -fx-border-color: #3796a7;
-    -fx-font-size: 13px;
-    -fx-padding: 0px 0px 0px 28px;
+    -fx-background-color: #dcdcdc;
+    -fx-background-radius: 16;
+    -fx-border-color: transparent;
 }
-.search:focused{
-    -fx-background-color: #fff;
+
+.search-text-field:focused {
+    -fx-prompt-text-fill: transparent;
 }
 
 .table-view{
-    -fx-background-color: transparent;
-    -fx-border-color: linear-gradient(to bottom right, #25bcbf, #3796a7);
-    -fx-border-radius: 8px;
-    -fx-border-width: 2px;
-    -fx-padding: 0px;
+    -fx-background-color: white;
+    -fx-border-color: transparent;
 }
-.table-view .table-column{
-    -fx-alignment: CENTER;
-}
-.table-view .column-header-background{
-    -fx-background-color: linear-gradient(to bottom right, #25bcbf, #3796a7);
-    -fx-background-radius: 8px 8px 0px 0px;
-}
+
 .table-view .column-header{
-    -fx-background-color: transparent;
-    -fx-size: 40px;
+    -fx-background-color: white;
+    -fx-border-color: linear-gradient(to bottom right, #c01820ae, #961022ae);
+    -fx-border-radius: 5;
+    -fx-border-width: 2;
+    -fx-padding: 8 0 8 0;
+}
+
+.table-view .table-row-cell{
+    -fx-border-color: #e7e0e0;
+    -fx-border-radius: 5;
+    -fx-border-width: 2;
+}
+
+.table-view .column-header:hover{
+    -fx-background-color: linear-gradient(to bottom right, #c01821, #961022);
+    -fx-background-radius: 5px;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header:hover .label{
+    -fx-text-fill: white;
+}
+
+.table-view .table-cell {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 4 10 4 10;
 }
 .table-view .column-header .label{
-    -fx-text-fill: #fff;
-    -fx-font-family: Arial;
+    -fx-font-size: 12;
+    -fx-text-fill: linear-gradient(to bottom right, #c01821, #961022);
+    -fx-font-weight: bolder;
+    -fx-font-family: "Lexend Deca";
 }
+
+.label-order-info{
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-family: "Lexend Deca";
+    -fx-font-size: 24;
+}
+
+.price-lable{
+    -fx-font-family: "Lexend Deca";
+    -fx-font-size: 20;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.customer-order-pane{
+    -fx-background-color: white;
+    -fx-background-radius: 32;
+}
+
 
