@@ -1,10 +1,12 @@
-package com.restaurant.reservationsystem.controllers;import com.restaurant.reservationsystem.config.DatabaseConfig;
+package com.restaurant.reservationsystem.controllers;
+
+import com.restaurant.reservationsystem.config.DatabaseConfig;
 import com.restaurant.reservationsystem.dao.availableDAO;
 import com.restaurant.reservationsystem.dao.dashboardDAO;
 import com.restaurant.reservationsystem.dao.orderDAO;
 import com.restaurant.reservationsystem.models.Admin;
+import com.restaurant.reservationsystem.models.Orders;
 import com.restaurant.reservationsystem.models.Product;
-import com.restaurant.reservationsystem.models.categories;
 import com.restaurant.reservationsystem.utils.AlertUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;import javafx.scene.image.ImageView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.net.URL;
@@ -29,7 +31,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
-import java.sql.*;
 
 public class dashboardController implements Initializable  {
 
@@ -43,19 +44,19 @@ public class dashboardController implements Initializable  {
     private Button availableFD_clearBtn;
 
     @FXML
-    private TableColumn<categories, String> availableFD_col_Price;
+    private TableColumn<Product, String> availableFD_col_Price;
 
     @FXML
-    private TableColumn<categories, String> availableFD_col_Status;
+    private TableColumn<Product, String> availableFD_col_Status;
 
     @FXML
-    private TableColumn<categories, String> availableFD_col_Type;
+    private TableColumn<Product, String> availableFD_col_Type;
 
     @FXML
-    private TableColumn<categories, String> availableFD_col_productID;
+    private TableColumn<Product, String> availableFD_col_productID;
 
     @FXML
-    private TableColumn<categories, String> availableFD_col_productName;
+    private TableColumn<Product, String> availableFD_col_productName;
 
     @FXML
     private Button availableFD_deleteBtn;
@@ -121,19 +122,19 @@ public class dashboardController implements Initializable  {
     private Button order_btn;
 
     @FXML
-    private TableColumn<Product, String> order_col_price;
+    private TableColumn<Orders, String> order_col_price;
 
     @FXML
-    private TableColumn<Product, String> order_col_productID;
+    private TableColumn<Orders, String> order_col_productID;
 
     @FXML
-    private TableColumn<Product, String> order_col_productName;
+    private TableColumn<Orders, String> order_col_productName;
 
     @FXML
-    private TableColumn<Product, String> order_col_quantity;
+    private TableColumn<Orders, String> order_col_quantity;
 
     @FXML
-    private TableColumn<Product, String> order_col_type;
+    private TableColumn<Orders, String> order_col_type;
 
     @FXML
     private AnchorPane order_form;
@@ -157,7 +158,7 @@ public class dashboardController implements Initializable  {
     private Button order_removeBtn;
 
     @FXML
-    private TableView<Product> order_tableView;
+    private TableView<Orders> order_tableView;
 
     @FXML
     private Label order_total;
@@ -169,7 +170,7 @@ public class dashboardController implements Initializable  {
     private AnchorPane main_form;
 
     @FXML
-    private TableView<categories> availableFD_tableView;
+    private TableView<Product> availableFD_tableView;
 
     @FXML
     private Label order_balance;
@@ -184,6 +185,7 @@ public class dashboardController implements Initializable  {
         user=user.substring(0,1).toUpperCase()+user.substring(1);
         username.setText(user);
     }
+
     public void logout(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
@@ -219,7 +221,7 @@ public class dashboardController implements Initializable  {
     private final dashboardDAO dashboardDAO = new dashboardDAO();
 
     public void dashboardNC() {
-        int totalCount = dashboardDAO.getTotalCustomerCount();
+        int totalCount = dashboardDAO.getTotalCustomerOrder();
         dashboard_NC.setText(String.valueOf(totalCount));
     }
     public void dashboardTi() {
@@ -344,62 +346,77 @@ public class dashboardController implements Initializable  {
         availableFD_productType.getSelectionModel().clearSelection();
     }
 
-    private ObservableList<categories> availableFDListData;
+    private ObservableList<Product> availableFDListData;
     public void availableFDShowData(){
         availableFDListData=availableFDList();
         availableFD_col_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        availableFD_col_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        availableFD_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
         availableFD_col_Type.setCellValueFactory(new PropertyValueFactory<>("type"));
         availableFD_col_Price.setCellValueFactory(new PropertyValueFactory<>("price"));
         availableFD_col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
         availableFD_tableView.setItems(availableFDListData);
     }
 
-    public ObservableList<categories> availableFDList() {
-        return availableDAO.getAllCategories();
+    public ObservableList<Product> availableFDList() {
+        return availableDAO.getAllProduct();
     }
 
     public void availableFDSelect(){
-        categories catDate=availableFD_tableView.getSelectionModel().getSelectedItem();
+        Product catDate=availableFD_tableView.getSelectionModel().getSelectedItem();
         int num=availableFD_tableView.getSelectionModel().getSelectedIndex();
         if((num-1)<-1){
             return;
         }
         availableFD_productID.setText(catDate.getProductId());
-        availableFD_productName.setText(catDate.getName());
+        availableFD_productName.setText(catDate.getProductName());
         availableFD_productPrice.setText(String.valueOf(catDate.getPrice()));
 
     }
 
     public void availableFDSearch() {
-        FilteredList<categories> filter = new FilteredList<>(availableFDListData, e -> true);
+        FilteredList<Product> filter = new FilteredList<>(availableFDListData, e -> true);
         availableFD_search.textProperty().addListener((observable, oldValue, newValue) -> {
-            filter.setPredicate(predicateCategories -> {
+            filter.setPredicate(predicateProduct -> {
                 if (newValue==null || newValue.isEmpty()) {
                     return true;
                 }
                 String searchKey = newValue.toLowerCase();
-                if (predicateCategories.getProductId().toLowerCase().contains(searchKey)) {
+                if (predicateProduct.getProductId().toLowerCase().contains(searchKey)) {
                     return true;
-                } else if (predicateCategories.getName().toLowerCase().contains(searchKey)) {
+                } else if (predicateProduct.getProductName().toLowerCase().contains(searchKey)) {
                     return true;
-                } else if (predicateCategories.getType().toLowerCase().contains(searchKey)) {
+                } else if (predicateProduct.getType().toLowerCase().contains(searchKey)) {
                     return true;
-                } else if (predicateCategories.getPrice().toString().toLowerCase().contains(searchKey)) {
+                } else if (String.valueOf(predicateProduct.getPrice()).toLowerCase().contains(searchKey)) {
                     return true;
-                } else if (predicateCategories.getStatus().toLowerCase().contains(searchKey)) {
+                } else if (predicateProduct.getStatus().toLowerCase().contains(searchKey)) {
                     return true;
                 } else {
                     return false;
                 }
             });
         });
-        SortedList<categories> sortList = new SortedList<>(filter);
+        SortedList<Product> sortList = new SortedList<>(filter);
         sortList.comparatorProperty().bind(availableFD_tableView.comparatorProperty());
         availableFD_tableView.setItems(sortList);
     }
 //---------------------------------------------------------------------------------------------------------------------//
-    private final orderDAO orderDAO = new orderDAO(); // Ensure this is declared
+    private final orderDAO orderDAO = new orderDAO();// Ensure this is declared
+
+    private  int customerId;
+    public void orderCustomerId(){
+        customerId = orderDAO.getNextCustomerId();
+        String sql = "INSERT INTO Customer(customer_id) VALUES (?)";
+        try (Connection connect = DatabaseConfig.getConnection();
+             PreparedStatement prepare = connect.prepareStatement(sql)) {
+            prepare.setInt(1, customerId);
+            prepare.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void orderAdd() {
         String productId = order_productID.getSelectionModel().getSelectedItem();
         String productName = order_productName.getSelectionModel().getSelectedItem();
@@ -415,9 +432,7 @@ public class dashboardController implements Initializable  {
         }
         double orderPrice = (double) productDetails.get("price");
         double totalPrice = orderPrice * qty;
-        boolean success = orderDAO.addOrder(customerId, productId, productName,
-                (String) productDetails.get("type"),
-                totalPrice, qty, new java.sql.Date(System.currentTimeMillis()));
+        boolean success = orderDAO.addOrder(customerId, productId,qty, new java.sql.Date(System.currentTimeMillis()));
         if (success) {
             orderDisplayTotal();
             orderDisplayData();
@@ -428,7 +443,7 @@ public class dashboardController implements Initializable  {
     }
 
     public void orderPay(){
-        orderCustomerId();
+
         orderTotal();
 
         if (balance < 0 || totalP <= 0) {
@@ -446,7 +461,9 @@ public class dashboardController implements Initializable  {
             boolean success = orderDAO.addPayment(customerId, totalP, new Date(System.currentTimeMillis()));
             if (success) {
                 AlertUtils.showInfoAlert("Success", "Payment successful!");
-                resetOrderFields();
+                orderCustomerId();
+                orderDisplayData();
+
             } else {
                 AlertUtils.showErrorAlert("Error", "Payment failed.");
             }
@@ -454,20 +471,9 @@ public class dashboardController implements Initializable  {
             AlertUtils.showInfoAlert("Information", "Payment cancelled.");
         }
     }
-    private void resetOrderFields() {
-        order_total.setText("$0.0");
-        order_balance.setText("$0.0");
-        order_amount.setText("");
-        order_tableView.getItems().clear();
-        orderDisplayData();
 
-    }
 
-    private double totalP=0;
-    public void orderTotal(){
-        orderCustomerId();
-        totalP= orderDAO.getTotalPrice(customerId);
-    }
+
 
 
     private double amount;
@@ -495,18 +501,27 @@ public class dashboardController implements Initializable  {
 
         }
     }
+    private double totalP=0;
+    public void orderTotal(){
+        totalP= orderDAO.getTotalPrice(customerId);
+    }
 
     public void orderDisplayTotal(){
         orderTotal();
         order_total.setText("$"+String.valueOf(totalP));
     }
 
-    public ObservableList<Product> orderListData(){
-        orderCustomerId();
-        return orderDAO.getOrderListData(customerId);
 
+    private int item;
+    public void orderSelectData() {
+        Orders prod = order_tableView.getSelectionModel().getSelectedItem();
+        int num = order_tableView.getSelectionModel().getSelectedIndex();
+
+        if(prod==null|| num<0){
+            return;
+        }
+        item = prod.getOrderId();
     }
-
 
 
 
@@ -519,7 +534,7 @@ public class dashboardController implements Initializable  {
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationAlert.setTitle("Confirmation Message");
         confirmationAlert.setHeaderText(null);
-        confirmationAlert.setContentText("Are you sure you want to Remove Item: " + item + "?");
+        confirmationAlert.setContentText("Are you sure you want to remove this item ?");
         Optional<ButtonType> option = confirmationAlert.showAndWait();
 
         if (option.isPresent() && option.get().equals(ButtonType.OK)) {
@@ -538,39 +553,25 @@ public class dashboardController implements Initializable  {
         }
     }
 
-    private int item;
 
-    public void orderSelectData() {
 
-        Product prod = order_tableView.getSelectionModel().getSelectedItem();
-        int num = order_tableView.getSelectionModel().getSelectedIndex();
+    public ObservableList<Orders> orderListData(){
+        return orderDAO.getOrderListData(customerId);
 
-        if(prod==null|| num<0){
-            return;
-
-        }
-
-        item = prod.getId();
     }
-
-    private ObservableList<Product> orderData;
+    private ObservableList<Orders> orderData;
     public void orderDisplayData(){
         orderData=orderListData();
         order_col_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        order_col_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        order_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
         order_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
         order_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
         order_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
         order_tableView.setItems(orderData);
 
-
     }
 
-    private  int customerId;
-    public void orderCustomerId(){
-        customerId = orderDAO.getNextCustomerId();
-    }
+
 
 
     public void orderProductId() {
@@ -650,9 +651,10 @@ public class dashboardController implements Initializable  {
         displayUsername();
         availableFDStatus();
         availableFDType();
-
         availableFDShowData();
+        availableFDSearch();
 
+        orderCustomerId();
         orderProductId();
         orderProductName();
         orderSpinner();

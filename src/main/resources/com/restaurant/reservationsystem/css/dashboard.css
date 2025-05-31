@@ -1,7 +1,9 @@
 @font-face {
     font-family: "Lexend Deca";
-    src: url("src/main/resources/com/restaurant/reservationsystem/fonts/Lexend_Deca/LexendDeca-VariableFont_wght.ttf");
+    src: url("com/restaurant/reservationsystem/fonts/Lexend_Deca/LexendDeca-VariableFont_wght.ttf");
 }
+
+
 
 .background{
     -fx-background-radius: 32;
@@ -74,7 +76,7 @@
     -fx-font-family: "Lexend Deca";
     -fx-cursor:hand;
     -fx-text-fill: linear-gradient(to bottom right, #f92734, #8f151e);
-    -fx-alignment: left;
+    -fx-alignment: CENTER_LEFT;
     -fx-padding: 0 0 0 32;
     -fx-font-weight: normal;
 }
@@ -145,7 +147,7 @@
 }
 
 .chart-bar {
-    -fx-bar-fill: linear-gradient(from 0% 0% to 0% 100%, black 0%, #212121 100%);
+    -fx-bar-fill: #FFA500;
 }
 
 .label-title{

@@ -74,7 +74,7 @@
                                     <Insets left="25.0" top="130.0" />
                                  </padding>
                               </Label>
-                              <Label fx:id="username" prefHeight="18.0" prefWidth="106.0" styleClass="nav1-label-username" text="Admin">
+                              <Label fx:id="username" prefHeight="188.0" prefWidth="326.0" styleClass="nav1-label-username" text="Admin">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -429,7 +429,7 @@
                                                 <Insets top="16.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <TableView fx:id="order_tableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="656.0">
+                                          <TableView fx:id="order_tableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#orderSelectData" prefHeight="508.0" prefWidth="656.0">
                                              <columns>
                                                 <TableColumn fx:id="order_col_productID" prefWidth="113.60006713867188" text="ProductID" />
                                                 <TableColumn fx:id="order_col_productName" prefWidth="177.5999755859375" text="ProductName" />

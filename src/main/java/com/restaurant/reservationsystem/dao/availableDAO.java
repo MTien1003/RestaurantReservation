@@ -1,7 +1,7 @@
 package com.restaurant.reservationsystem.dao;
 
 import com.restaurant.reservationsystem.config.DatabaseConfig;
-import com.restaurant.reservationsystem.models.categories;
+import com.restaurant.reservationsystem.models.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,7 +17,7 @@ public class availableDAO {
     private ResultSet result;
 
     public boolean isProductIdExists(String productId){
-        String checkData ="SELECT product_id FROM cart WHERE product_id = ?";
+        String checkData ="SELECT product_id FROM Product WHERE product_id = ?";
         connect = DatabaseConfig.getConnection();
         try{
             prepare=connect.prepareStatement(checkData);
@@ -32,29 +32,29 @@ public class availableDAO {
     }
 
 
-    public ObservableList<categories> getAllCategories() {
-        ObservableList<categories> categoryList = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM category";
+    public ObservableList<Product> getAllProduct() {
+        ObservableList<Product> productList = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM Product";
         try (Connection connect = DatabaseConfig.getConnection();
              Statement statement = connect.createStatement();
              ResultSet result = statement.executeQuery(sql)) {
 
             while (result.next()) {
-                categoryList.add(new categories(
+                productList.add(new Product(
                         result.getString("product_id"),
                         result.getString("product_name"),
-                        result.getString("product_type"),
-                        result.getString("price"),
+                        result.getString("type"),
+                        result.getFloat("price"),
                         result.getString("status")));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return categoryList;
+        return productList;
     }
 
     public boolean addProduct(String productId, String productName, String productType, String price, String status) {
-        String sql = "INSERT INTO category (product_id, product_name, product_type, price, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Product (product_id, product_name, type, price, status) VALUES (?, ?, ?, ?, ?)";
         connect = DatabaseConfig.getConnection();
         try {
             prepare = connect.prepareStatement(sql);
@@ -73,7 +73,7 @@ public class availableDAO {
 
 
     public boolean updateProduct(String productId, String productName, String productType, String price, String status) {
-        String sql = "UPDATE category SET product_name=?, product_type=?, price=?, status=? WHERE product_id=?";
+        String sql = "UPDATE Product SET product_name=?, type=?, price=?, status=? WHERE product_id=?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
@@ -92,7 +92,7 @@ public class availableDAO {
     }
 
     public boolean deleteProduct(String productId) {
-        String sql = "DELETE FROM category WHERE product_id = ?";
+        String sql = "DELETE FROM Product WHERE product_id = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
             prepare.setString(1, productId);

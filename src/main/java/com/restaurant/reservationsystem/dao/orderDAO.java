@@ -1,7 +1,7 @@
 package com.restaurant.reservationsystem.dao;
 
 import com.restaurant.reservationsystem.config.DatabaseConfig;
-import com.restaurant.reservationsystem.models.Product;
+import com.restaurant.reservationsystem.models.Orders;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,18 +15,17 @@ public class orderDAO {
     private Statement statement;
     private ResultSet result;
 
-    public boolean addOrder(int customerId, String productId, String productName, String type, double price, int quantity, java.sql.Date date) {
-        String sql = "INSERT INTO product (customer_id, product_id, product_name, type, price, quantity, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public boolean addOrder( int customerId, String productId, int quantity, java.sql.Date date) {
+        String sql = "INSERT INTO Orders ( product_id, customer_id, date, quantity) VALUES ( ?, ?, ?, ?)";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
-            prepare.setInt(1, customerId);
-            prepare.setString(2, productId);
-            prepare.setString(3, productName);
-            prepare.setString(4, type);
-            prepare.setDouble(5, price);
-            prepare.setInt(6, quantity);
-            prepare.setDate(7, date);
+
+            prepare.setString(1, productId);
+            prepare.setInt(2, customerId);
+            prepare.setDate(3, date);
+            prepare.setInt(4, quantity);
+
 
             prepare.executeUpdate();
             return true;
@@ -37,7 +36,7 @@ public class orderDAO {
     }
 
     public Map<String, Object> getProductDetails(String productId) {
-        String sql = "SELECT type, price FROM category WHERE product_id = ?";
+        String sql = "SELECT type, price FROM Product WHERE product_id = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
@@ -61,13 +60,14 @@ public class orderDAO {
 
 
         public boolean addPayment(int customerId, double total, Date date) {
-            String sql = "INSERT INTO product_info(customer_id, total, date) VALUES(?, ?, ?)";
+            String sql = "INSERT INTO Invoice(customer_id,total, date) VALUES(?, ?, ?)";
             try (Connection connect = DatabaseConfig.getConnection();
                  PreparedStatement prepare = connect.prepareStatement(sql)) {
 
-                prepare.setInt(1, customerId);
+                prepare.setInt(1,  customerId);
                 prepare.setDouble(2, total);
                 prepare.setDate(3, date);
+
 
                 prepare.executeUpdate();
                 return true;
@@ -78,7 +78,8 @@ public class orderDAO {
         }
 
     public double getTotalPrice(int customerId) {
-        String sql = "SELECT SUM(price) AS total_price FROM product WHERE customer_id = ?";
+        String sql = "SELECT SUM(o.quantity * p.price) AS total_price FROM Orders o JOIN Product p ON o.product_id = p.product_id WHERE customer_id = ?";
+
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
@@ -94,24 +95,24 @@ public class orderDAO {
         return 0;
     }
 
-    public ObservableList<Product> getOrderListData(int customerId) {
-        ObservableList<Product> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM product WHERE customer_id = ?";
+    public ObservableList<Orders> getOrderListData(int customerId) {
+        ObservableList<Orders> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM Orders o JOIN Product p ON o.product_id=p.product_id WHERE customer_id = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
             prepare.setInt(1, customerId);
             try (ResultSet result = prepare.executeQuery()) {
                 while (result.next()) {
-                    Product prod = new Product(
-                            result.getInt("id"),
+                    Orders order = new Orders(
+                            result.getInt("order_id"),
                             result.getString("product_id"),
                             result.getString("product_name"),
                             result.getString("type"),
                             result.getDouble("price"),
                             result.getInt("quantity")
                     );
-                    listData.add(prod);
+                    listData.add(order);
                 }
             }
         } catch (Exception e) {
@@ -121,12 +122,12 @@ public class orderDAO {
     }
 
 
-    public boolean removeOrder(int itemId) {
-        String sql = "DELETE FROM product WHERE id = ?";
+    public boolean removeOrder(int orderId) {
+        String sql = "DELETE FROM Orders WHERE order_id = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
-            prepare.setInt(1, itemId);
+            prepare.setInt(1, orderId);
             prepare.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -137,37 +138,28 @@ public class orderDAO {
 
 
     public int getNextCustomerId() {
-        String sql = "SELECT customer_id FROM product";
-        String checkData = "SELECT customer_id FROM product_info";
-        int customerId = 0;
+        String sql = "SELECT MAX(customer_id) AS max_id FROM Customer";
+        int nextId = 1; // Mặc định nếu bảng rỗng
 
         try (Connection connect = DatabaseConfig.getConnection();
-             PreparedStatement productStmt = connect.prepareStatement(sql);
-             ResultSet productResult = productStmt.executeQuery();
-             Statement statement = connect.createStatement();
-             ResultSet infoResult = statement.executeQuery(checkData)) {
+             PreparedStatement stmt = connect.prepareStatement(sql);
+             ResultSet result = stmt.executeQuery()) {
 
-            if (productResult.next()) {
-                customerId = productResult.getInt("customer_id");
+            if (result.next()) {
+                nextId = result.getInt("max_id") + 1;
             }
-
-            int customerInfoId = 0;
-            if (infoResult.next()) {
-                customerInfoId = infoResult.getInt("customer_id");
-            }
-
-            customerId = Math.max(customerId, customerInfoId) + 1;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return customerId;
+        return nextId;
     }
 
 
+
     public ObservableList<String> getAvailableProductIds() {
-        String sql = "SELECT product_id FROM category WHERE status='Available'";
+        String sql = "SELECT product_id FROM Product WHERE status='Available'";
         ObservableList<String> productIds = FXCollections.observableArrayList();
 
         try (Connection connect = DatabaseConfig.getConnection();
@@ -185,7 +177,7 @@ public class orderDAO {
 
 
     public ObservableList<String> getProductNames(String productId) {
-        String sql = "SELECT product_name FROM category WHERE product_id = ?";
+        String sql = "SELECT product_name FROM Product WHERE product_id = ?";
         ObservableList<String> productNames = FXCollections.observableArrayList();
 
         try (Connection connect = DatabaseConfig.getConnection();

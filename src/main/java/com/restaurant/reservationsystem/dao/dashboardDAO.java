@@ -10,15 +10,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class dashboardDAO {
-    public int getTotalCustomerCount() {
-        String sql = "SELECT COUNT(customer_id) AS total_count FROM product_info";
+    public int getTotalCustomerOrder() {
+        String sql = "SELECT COUNT(DISTINCT customer_id) AS total_customerOrder FROM Invoice";
         int totalCount = 0;
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql);
              ResultSet result = prepare.executeQuery()) {
 
             if (result.next()) {
-                totalCount = result.getInt("total_count");
+                totalCount = result.getInt("total_customerOrder");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,7 +30,7 @@ public class dashboardDAO {
 
 
     public double getTotalIncomeForToday() {
-        String sql = "SELECT SUM(total) AS total_price FROM product_info WHERE date = ?";
+        String sql =" SELECT SUM(total) AS total_income FROM Invoice WHERE date = ?";
         double totalIncome = 0;
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
@@ -38,7 +38,7 @@ public class dashboardDAO {
             prepare.setDate(1, sqlDate);
             try (ResultSet result = prepare.executeQuery()) {
                 if (result.next()) {
-                    totalIncome = result.getDouble("total_price");
+                    totalIncome = result.getDouble("total_income");
                 }
             }
         } catch (Exception e) {
@@ -49,14 +49,14 @@ public class dashboardDAO {
 
 
     public double getTotalIncome() {
-        String sql = "SELECT SUM(total) AS total_price FROM product_info";
+        String sql = "SELECT SUM(total) AS total_income FROM Invoice";
         double totalIncome = 0;
         try (Connection connect = DatabaseConfig.getConnection();
              Statement statement = connect.createStatement();
              ResultSet result = statement.executeQuery(sql)) {
 
             if (result.next()) {
-                totalIncome = result.getDouble("total_price");
+                totalIncome = result.getDouble("total_income");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class dashboardDAO {
     }
 
     public Map<String, Integer> getNumberOfOrdersByDate() {
-        String sql = "SELECT date, COUNT(customer_id) AS total_count FROM product_info GROUP BY date ORDER BY date ASC";
+        String sql = "SELECT date, COUNT(DISTINCT customer_id) AS total_count FROM Invoice GROUP BY date ORDER BY date ASC";
         Map<String, Integer> ordersByDate = new LinkedHashMap<>();
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql);
@@ -81,7 +81,7 @@ public class dashboardDAO {
     }
 
     public Map<String, Double> getIncomeChartData() {
-        String sql = "SELECT date, SUM(total) AS total_price FROM product_info GROUP BY date ORDER BY date ASC";
+        String sql = "SELECT date, SUM(total) AS total_price FROM Invoice GROUP BY date ORDER BY date ASC";
         Map<String, Double> incomeChartData = new LinkedHashMap<>();
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql);
