@@ -461,7 +461,7 @@
                                                 <HBox alignment="CENTER_LEFT" layoutX="34.0" layoutY="340.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="331.0">
                                                    <children>
                                                       <Label styleClass="label-heading" text="CustomerID:" />
-                                                      <TextField fx:id="cus_id_field" onAction="#orderAmount" prefHeight="30.0" prefWidth="180.0" promptText="eg: 1" styleClass="textfield">
+                                                      <TextField fx:id="cus_id_field" onMouseClicked="#getCurrentDateTime" prefHeight="30.0" prefWidth="180.0" promptText="eg: 1" styleClass="textfield">
                                                          <HBox.margin>
                                                             <Insets left="28.0" />
                                                          </HBox.margin>

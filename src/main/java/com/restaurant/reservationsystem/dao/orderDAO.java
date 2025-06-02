@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class orderDAO {
     private Statement statement;
     private ResultSet result;
 
-    public boolean addOrder( int customerId, String productId, int quantity, java.sql.Date date) {
+    public boolean addOrder(int customerId, String productId, int quantity, Timestamp dateTime) {
         String sql = "INSERT INTO Orders ( product_id, customer_id, date, quantity) VALUES ( ?, ?, ?, ?)";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
@@ -23,7 +24,7 @@ public class orderDAO {
 
             prepare.setString(1, productId);
             prepare.setInt(2, customerId);
-            prepare.setDate(3, date);
+            prepare.setTimestamp(3, dateTime);
             prepare.setInt(4, quantity);
 
 
@@ -77,13 +78,14 @@ public class orderDAO {
             }
         }
 
-    public double getTotalPrice(int customerId) {
-        String sql = "SELECT SUM(o.quantity * p.price) AS total_price FROM Orders o JOIN Product p ON o.product_id = p.product_id WHERE customer_id = ?";
+    public double getTotalPrice(int customerId, Timestamp dateTime) {
+        String sql = "SELECT SUM(o.quantity * p.price) AS total_price FROM Orders o JOIN Product p ON o.product_id = p.product_id WHERE customer_id = ? AND o.date = ?";
 
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
             prepare.setInt(1, customerId);
+            prepare.setTimestamp(2, dateTime);
             try (ResultSet result = prepare.executeQuery()) {
                 if (result.next()) {
                     return result.getDouble("total_price");
@@ -95,13 +97,17 @@ public class orderDAO {
         return 0;
     }
 
-    public ObservableList<Orders> getOrderListData(int customerId) {
+    public ObservableList<Orders> getOrderListData( Timestamp datetime) {
         ObservableList<Orders> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM Orders o JOIN Product p ON o.product_id=p.product_id WHERE customer_id = ?";
+        String sql = "SELECT o.order_id, o.product_id, p.product_name, p.type, p.price, o.quantity " +
+                "FROM Orders o " +
+                "JOIN Product p ON o.product_id = p.product_id " +
+                "WHERE  o.date = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
-            prepare.setInt(1, customerId);
+
+            prepare.setTimestamp(1, datetime);
             try (ResultSet result = prepare.executeQuery()) {
                 while (result.next()) {
                     Orders order = new Orders(
@@ -137,24 +143,7 @@ public class orderDAO {
     }
 
 
-    public int getNextCustomerId() {
-        String sql = "SELECT MAX(customer_id) AS max_id FROM Customer";
-        int nextId = 1; // Mặc định nếu bảng rỗng
 
-        try (Connection connect = DatabaseConfig.getConnection();
-             PreparedStatement stmt = connect.prepareStatement(sql);
-             ResultSet result = stmt.executeQuery()) {
-
-            if (result.next()) {
-                nextId = result.getInt("max_id") + 1;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return nextId;
-    }
 
 
 
@@ -193,6 +182,21 @@ public class orderDAO {
             e.printStackTrace();
         }
         return productNames;
+    }
+
+    public boolean isCustomerIdExists(int customerId) {
+        String query = "SELECT COUNT(*) FROM Customer WHERE customer_id = ?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, customerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

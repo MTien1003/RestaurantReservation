@@ -25,11 +25,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class dashboardController implements Initializable  {
@@ -174,6 +173,9 @@ public class dashboardController implements Initializable  {
 
     @FXML
     private Label order_balance;
+
+    @FXML
+    private TextField cus_id_field;
 
 
     public void close(){
@@ -404,17 +406,17 @@ public class dashboardController implements Initializable  {
     private final orderDAO orderDAO = new orderDAO();// Ensure this is declared
 
     private  int customerId;
-    public void orderCustomerId(){
-        customerId = orderDAO.getNextCustomerId();
-        String sql = "INSERT INTO Customer(customer_id) VALUES (?)";
-        try (Connection connect = DatabaseConfig.getConnection();
-             PreparedStatement prepare = connect.prepareStatement(sql)) {
-            prepare.setInt(1, customerId);
-            prepare.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+
+
+    private Timestamp currentDateTime;
+    public void getCurrentDateTime() {
+        currentDateTime = new Timestamp(System.currentTimeMillis());
+
     }
+
+
 
 
     public void orderAdd() {
@@ -422,6 +424,32 @@ public class dashboardController implements Initializable  {
         String productName = order_productName.getSelectionModel().getSelectedItem();
         if (productId == null || productName == null) {
             AlertUtils.showErrorAlert("Error", "Please select a product and quantity.");
+            return;
+        }
+        String customerIdText = cus_id_field.getText();
+        customerId = Integer.parseInt(customerIdText);
+        try {
+            //customerId = Integer.parseInt(customerIdText);
+            if (customerId <= 0) {
+                AlertUtils.showErrorAlert("Error", "Customer ID must be a positive integer.");
+                return;
+            }
+            if (!orderDAO.isCustomerIdExists(customerId)) {
+                String sql = "INSERT INTO Customer(customer_id) VALUES (?)";
+                try (Connection connect = DatabaseConfig.getConnection();
+                     PreparedStatement prepare = connect.prepareStatement(sql)) {
+                    prepare.setInt(1, customerId);
+                    prepare.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (NumberFormatException e) {
+            AlertUtils.showErrorAlert("Error", "Invalid customer ID format. Please enter a valid integer.");
+            return;
+        }
+        if (customerIdText.isEmpty()) {
+            AlertUtils.showErrorAlert("Error", "Please enter a customer ID.");
             return;
         }
         // Use the instance of orderDAO to call the method
@@ -432,7 +460,9 @@ public class dashboardController implements Initializable  {
         }
         double orderPrice = (double) productDetails.get("price");
         double totalPrice = orderPrice * qty;
-        boolean success = orderDAO.addOrder(customerId, productId,qty, new java.sql.Date(System.currentTimeMillis()));
+        //currentDateTime = new Timestamp(System.currentTimeMillis());
+        //System.out.println("Current Date and Time: " + currentDateTime);
+        boolean success = orderDAO.addOrder(customerId, productId,qty, currentDateTime);
         if (success) {
             orderDisplayTotal();
             orderDisplayData();
@@ -441,6 +471,24 @@ public class dashboardController implements Initializable  {
             AlertUtils.showErrorAlert("Error", "Failed to add order.");
         }
     }
+
+    public ObservableList<Orders> orderListData(){
+        return orderDAO.getOrderListData(currentDateTime);
+
+    }
+    private ObservableList<Orders> orderData;
+    public void orderDisplayData(){
+        orderData=orderListData();
+        System.out.println("Order Data: " + orderData);
+        order_col_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        order_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        order_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        order_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        order_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        order_tableView.setItems(orderData);
+
+    }
+
 
     public void orderPay(){
 
@@ -461,8 +509,22 @@ public class dashboardController implements Initializable  {
             boolean success = orderDAO.addPayment(customerId, totalP, new Date(System.currentTimeMillis()));
             if (success) {
                 AlertUtils.showInfoAlert("Success", "Payment successful!");
-                orderCustomerId();
-                orderDisplayData();
+
+
+                order_amount.setText("");
+                order_balance.setText("0.0");
+                order_total.setText("0.0");
+                amount=0;
+                balance=0;
+                totalP=0;
+                currentDateTime=null;
+
+                order_tableView.getItems().clear();
+                cus_id_field.setText("");
+                order_productID.getSelectionModel().clearSelection();
+                order_productName.getSelectionModel().clearSelection();
+                order_quantity.getValueFactory().setValue(0);
+
 
             } else {
                 AlertUtils.showErrorAlert("Error", "Payment failed.");
@@ -494,7 +556,7 @@ public class dashboardController implements Initializable  {
             }
             else{
                 balance=(amount-totalP);
-                order_balance.setText("$"+String.valueOf(balance));
+                order_balance.setText(String.valueOf(balance));
 
 
             }
@@ -503,12 +565,12 @@ public class dashboardController implements Initializable  {
     }
     private double totalP=0;
     public void orderTotal(){
-        totalP= orderDAO.getTotalPrice(customerId);
+        totalP= orderDAO.getTotalPrice(customerId, currentDateTime);
     }
 
     public void orderDisplayTotal(){
         orderTotal();
-        order_total.setText("$"+String.valueOf(totalP));
+        order_total.setText(String.valueOf(totalP));
     }
 
 
@@ -555,21 +617,7 @@ public class dashboardController implements Initializable  {
 
 
 
-    public ObservableList<Orders> orderListData(){
-        return orderDAO.getOrderListData(customerId);
 
-    }
-    private ObservableList<Orders> orderData;
-    public void orderDisplayData(){
-        orderData=orderListData();
-        order_col_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        order_col_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        order_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
-        order_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        order_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        order_tableView.setItems(orderData);
-
-    }
 
 
 
@@ -621,6 +669,7 @@ public class dashboardController implements Initializable  {
             orderDisplayData();
             orderDisplayTotal();
 
+
         } else if (event.getSource() == dashboard_btn) {
             dashboard_form.setVisible(true);
             availableFD_form.setVisible(false);
@@ -654,7 +703,7 @@ public class dashboardController implements Initializable  {
         availableFDShowData();
         availableFDSearch();
 
-        orderCustomerId();
+
         orderProductId();
         orderProductName();
         orderSpinner();
