@@ -46,7 +46,7 @@
                               <Insets left="260.0" />
                            </padding>
                         </Label>
-                        <Button fx:id="close" mnemonicParsing="false" onAction="#close" prefHeight="0.0" prefWidth="0.0" styleClass="close" stylesheets="@../css/dashboard.css" text="X">
+                        <Button fx:id="close" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="40.0" styleClass="close" stylesheets="@../css/dashboard.css" text="x">
                            <HBox.margin>
                               <Insets left="410.0" right="32.0" />
                            </HBox.margin>
@@ -140,7 +140,7 @@
                <center>
                   <StackPane alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1080.0" stylesheets="@../css/dashboard.css" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="dashboard_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
+                        <AnchorPane fx:id="dashboard_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0" visible="false">
                            <children>
                               <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1080.0">
                                  <children>
@@ -418,7 +418,7 @@
                               </HBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="order_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0" visible="false">
+                        <AnchorPane fx:id="order_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                            <children>
                               <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                                  <children>
@@ -515,10 +515,21 @@
                                                 <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
                                                    <children>
                                                       <Label styleClass="label-heading" text="Balance:" />
-                                                      <Label fx:id="order_balance" styleClass="label-heading" text="\$0.0" />
+                                                      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" styleClass="textfield">
+                                                         <children>
+                                                            <Label fx:id="order_balance" styleClass="label-heading" text="\$0.0">
+                                                               <HBox.margin>
+                                                                  <Insets left="8.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="52.0" />
+                                                         </HBox.margin>
+                                                      </HBox>
                                                    </children>
                                                    <VBox.margin>
-                                                      <Insets right="24.0" />
+                                                      <Insets right="24.0" top="12.0" />
                                                    </VBox.margin>
                                                 </HBox>
                                                 <HBox alignment="CENTER_RIGHT" layoutX="34.0" layoutY="207.0" prefHeight="30.0" prefWidth="331.0">
@@ -531,7 +542,7 @@
                                                       <Button fx:id="order_payBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#orderPay" prefHeight="24.0" prefWidth="60.0" styleClass="add-update-btn" text="Pay" />
                                                    </children>
                                                    <VBox.margin>
-                                                      <Insets right="24.0" />
+                                                      <Insets right="24.0" top="8.0" />
                                                    </VBox.margin>
                                                 </HBox>
                                              </children>

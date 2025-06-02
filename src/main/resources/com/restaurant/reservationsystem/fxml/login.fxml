@@ -23,7 +23,7 @@
    <children>
       <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/pngtree-a-charming-coffee-shop-with-a-red-awning-trees-and-lantern-picture-image_4039505.jpg" />
+            <Image url="@../images/cafe-restaurant-background_897093-737.png" />
          </image>
       </ImageView>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.6" prefHeight="400.0" prefWidth="400.0" styleClass="root" />

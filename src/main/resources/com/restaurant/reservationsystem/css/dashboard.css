@@ -28,9 +28,10 @@
 
 .close{
     -fx-background-color: transparent;
-    -fx-cursor: hand;
-    -fx-font-size: 32;
-    -fx-text-fill: white;
+    -fx-text-fill: #d6d6d6;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
 }
 .close:hover{
     -fx-text-fill: rgb(255, 6, 6);
