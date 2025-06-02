@@ -3,7 +3,9 @@
     src: url("com/restaurant/reservationsystem/fonts/Lexend_Deca/LexendDeca-VariableFont_wght.ttf");
 }
 
-
+.transparent{
+    -fx-background-color: transparent;
+}
 
 .background{
     -fx-background-radius: 32;
@@ -43,7 +45,7 @@
 }
 
 .nav1-label-title{
-    -fx-font-size: 44;
+    -fx-font-size: 40;
     -fx-text-fill: white;
     -fx-font-weight: bolder;
     -fx-font-family: "Lexend Deca";
