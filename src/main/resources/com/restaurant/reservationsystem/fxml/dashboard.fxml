@@ -1,270 +1,604 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.reservationsystem.controllers.dashboardController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1512.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.restaurant.reservationsystem.controllers.dashboardController">
    <children>
-      <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1512.0">
          <children>
-            <BorderPane layoutX="24.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <top>
-                  <AnchorPane prefHeight="45.0" prefWidth="1100.0" styleClass="top-form" stylesheets="@../css/dashboard.css" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="750.0" fitWidth="1512.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../images/abstract-black-and-red-gradient-triangles-of-different-sizes-vector.png" />
+               </image>
+            </ImageView>
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1512.0" styleClass="background-cover" visible="false" />
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1472.0" styleClass="background" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0" />
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1512.0" styleClass="top-form" stylesheets="@../css/dashboard.css">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="81.0" prefWidth="1512.0">
                      <children>
-                        <AnchorPane prefHeight="35.0" prefWidth="1100.0" styleClass="semi-top" stylesheets="@../css/dashboard.css" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Button fx:id="close" layoutX="1057.0" layoutY="4.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="42.0" styleClass="close" stylesheets="@../css/dashboard.css" text="X" AnchorPane.rightAnchor="0.599999999999909" AnchorPane.topAnchor="4.0" />
-                              <Label layoutX="14.0" layoutY="9.0" text="Restaurant Management System">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </AnchorPane>
+                        <Label styleClass="top-form-title" text="Restaurant Management System">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <padding>
+                              <Insets left="260.0" />
+                           </padding>
+                        </Label>
+                        <Button fx:id="close" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#close" prefHeight="40.0" prefWidth="40.0" styleClass="close" stylesheets="@../css/dashboard.css" text="x">
+                           <HBox.margin>
+                              <Insets left="410.0" right="32.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
-                  </AnchorPane>
-               </top>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <BorderPane layoutX="24.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1400.0" styleClass="border-bg" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0">
                <left>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="340.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane layoutX="5.0" layoutY="8.0" prefHeight="152.0" prefWidth="200.0" stylesheets="@../css/dashboard.css">
+                        <StackPane prefHeight="192.0" prefWidth="332.0">
                            <children>
-                              <Label layoutX="52.0" layoutY="65.0" text="Welcome">
-                                 <font>
-                                    <Font size="23.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="14.0" layoutY="118.0" text="UN: " />
-                              <Label fx:id="username" layoutX="52.0" layoutY="116.0" prefHeight="18.0" prefWidth="106.0" text="Admin">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
+                              <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="332.0" styleClass="nav1" />
+                              <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="332.0" styleClass="shadow">
+                                 <children>
+                                    <Label fx:id="username" styleClass="nav1-label-username" text="Admin">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="54.0" top="100.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label styleClass="nav1-label-title" text="Welcome">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="24.0" top="44.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label styleClass="nav1-label-un" text="UN: ">
+                                       <padding>
+                                          <Insets left="24.0" top="105.0" />
+                                       </padding>
+                                    </Label>
+                                    <ImageView fitHeight="80.0" fitWidth="60.0" layoutX="236.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/chef (1).png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
                            </children>
-                           <styleClass>
-                              <String fx:value="nav1" />
-                              <String fx:value="shadow" />
-                           </styleClass>
-                        </AnchorPane>
-                        <AnchorPane layoutX="5.0" layoutY="172.0" prefHeight="374.0" prefWidth="200.0" stylesheets="@../css/dashboard.css">
-                           <styleClass>
-                              <String fx:value="nav2" />
-                              <String fx:value="shadow" />
-                           </styleClass>
+                        </StackPane>
+                        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="340.0">
                            <children>
-                              <Button fx:id="dashboard_btn" layoutX="10.0" layoutY="44.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboard.css" text="Dashboard" />
-                              <Button fx:id="availableFD_btn" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboard.css" text="Available Foods/Drinks" />
-                              <Button fx:id="order_btn" layoutX="10.0" layoutY="147.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboard.css" text="Order" />
-                              <Button fx:id="logout" layoutX="10.0" layoutY="335.0" mnemonicParsing="false" onAction="#logout" styleClass="signout" stylesheets="@../css/dashboard.css" text="Sign out" textFill="WHITE" />
+                              <Button fx:id="dashboard_btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchForm" prefHeight="62.0" prefWidth="332.0" stylesheets="@../css/dashboard.css" text="Dashboard">
+                                 <styleClass>
+                                    <String fx:value="nav-btn" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="availableFD_btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchForm" prefHeight="62.0" prefWidth="332.0" stylesheets="@../css/dashboard.css" text="Available Foods/Drinks">
+                                 <VBox.margin>
+                                    <Insets top="24.0" />
+                                 </VBox.margin>
+                                 <styleClass>
+                                    <String fx:value="nav-btn" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </Button>
+                              <Button fx:id="order_btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchForm" prefHeight="62.0" prefWidth="332.0" stylesheets="@../css/dashboard.css" text="Order">
+                                 <VBox.margin>
+                                    <Insets top="24.0" />
+                                 </VBox.margin>
+                                 <styleClass>
+                                    <String fx:value="nav-btn" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </Button>
+                              <Region maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="94.0" prefWidth="340.0" />
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="332.0">
+                                 <children>
+                                    <Button fx:id="logout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#logout" styleClass="signout" stylesheets="@../css/dashboard.css" text="Sign out" textFill="WHITE" />
+                                 </children>
+                              </HBox>
                            </children>
-                        </AnchorPane>
-                        <Separator layoutY="169.0" prefWidth="200.0" />
+                           <VBox.margin>
+                              <Insets top="32.0" />
+                           </VBox.margin>
+                        </VBox>
                      </children>
-                  </AnchorPane>
+                     <BorderPane.margin>
+                        <Insets left="32.0" />
+                     </BorderPane.margin>
+                  </VBox>
                </left>
                <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <StackPane alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1080.0" stylesheets="@../css/dashboard.css" BorderPane.alignment="CENTER">
                      <children>
-                        <Separator layoutX="4.0" layoutY="3.0" orientation="VERTICAL" prefHeight="546.0" prefWidth="12.0" />
-                        <AnchorPane fx:id="dashboard_form" layoutX="14.4" layoutY="-1.6" prefHeight="554.0" prefWidth="876.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="-2.0">
+                        <AnchorPane fx:id="dashboard_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                            <children>
-                              <AnchorPane layoutX="5.0" layoutY="8.0" prefHeight="162.0" prefWidth="862.0" stylesheets="@../css/dashboard.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
+                              <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1080.0">
                                  <children>
-                                    <AnchorPane layoutX="41.0" layoutY="6.0" prefHeight="149.0" prefWidth="200.0" styleClass="card" stylesheets="@../css/dashboard.css">
+                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="1080.0">
                                        <children>
-                                          <Label layoutX="32.0" layoutY="89.0" text="Numbers of Customers" textFill="WHITE">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="dashboard_NC" layoutX="32.0" layoutY="58.0" prefHeight="26.0" prefWidth="140.0" text="0" textAlignment="CENTER" textFill="WHITE">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
+                                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="332.0">
+                                             <children>
+                                                <Label styleClass="card-title" text="Numbers of Customers" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="40.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="dashboard_NC" styleClass="card-number" text="0" textAlignment="CENTER" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="16.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="card" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                             <HBox.margin>
+                                                <Insets left="4.0" right="32.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="16.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox layoutX="1006.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="332.0">
+                                             <children>
+                                                <Label styleClass="card-title" text="Today's Income" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="40.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="dashboard_Ti" styleClass="card-number" text="0" textAlignment="CENTER" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="16.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="card" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                             <HBox.margin>
+                                                <Insets right="32.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="16.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox layoutX="1048.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="332.0">
+                                             <children>
+                                                <Label styleClass="card-title" text="Total Income" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="40.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="dashboard_Tincome" styleClass="card-number" text="0" textAlignment="CENTER" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets top="16.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="card" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="16.0" />
+                                             </padding>
+                                          </VBox>
                                        </children>
-                                    </AnchorPane>
-                                    <AnchorPane layoutX="331.0" layoutY="6.0" prefHeight="149.0" prefWidth="200.0" styleClass="card" stylesheets="@../css/dashboard.css">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1080.0">
                                        <children>
-                                          <Label layoutX="30.0" layoutY="92.0" text="Today's Income" textFill="WHITE">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="dashboard_Ti" layoutX="30.0" layoutY="61.0" prefHeight="26.0" prefWidth="140.0" text="0" textAlignment="CENTER" textFill="WHITE">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
+                                          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="514.0" stylesheets="@../css/dashboard.css">
+                                             <children>
+                                                <BarChart fx:id="dashboard_NOCChart" layoutX="-22.0" title="Numbers of Orders Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis side="LEFT" />
+                                                   </yAxis>
+                                                </BarChart>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="4.0" right="32.0" top="32.0" />
+                                             </HBox.margin>
+                                             <styleClass>
+                                                <String fx:value="chart-card" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                          </AnchorPane>
+                                          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="514.0" stylesheets="@../css/dashboard.css">
+                                             <children>
+                                                <BarChart fx:id="dashboard_ICChart" layoutX="-22.0" title="Income Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <xAxis>
+                                                      <CategoryAxis side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis side="LEFT" />
+                                                   </yAxis>
+                                                </BarChart>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets top="32.0" />
+                                             </HBox.margin>
+                                             <styleClass>
+                                                <String fx:value="chart-card" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                          </AnchorPane>
                                        </children>
-                                    </AnchorPane>
-                                    <AnchorPane layoutX="624.0" layoutY="6.0" prefHeight="149.0" prefWidth="200.0" styleClass="card" stylesheets="@../css/dashboard.css">
-                                       <children>
-                                          <Label layoutX="30.0" layoutY="93.0" text="Total Income" textFill="WHITE">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="dashboard_Tincome" layoutX="30.0" layoutY="62.0" prefHeight="26.0" prefWidth="140.0" text="0" textAlignment="CENTER" textFill="WHITE">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </AnchorPane>
+                                    </HBox>
                                  </children>
-                              </AnchorPane>
-                              <AnchorPane layoutX="7.0" layoutY="195.0" prefHeight="352.0" prefWidth="862.0" stylesheets="@../css/dashboard.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                                 <children>
-                                    <AnchorPane layoutX="46.0" layoutY="13.0" prefHeight="325.0" prefWidth="347.0" stylesheets="@../css/dashboard.css">
-                                       <children>
-                                          <BarChart fx:id="dashboard_NOCChart" layoutX="-22.0" prefHeight="325.6" prefWidth="347.2" title="Numbers of Orders Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <xAxis>
-                                              <CategoryAxis side="BOTTOM" />
-                                            </xAxis>
-                                            <yAxis>
-                                              <NumberAxis side="LEFT" />
-                                            </yAxis>
-                                          </BarChart>
-                                       </children>
-                                       <styleClass>
-                                          <String fx:value="white-bg" />
-                                          <String fx:value="shadow" />
-                                       </styleClass>
-                                    </AnchorPane>
-                                    <AnchorPane layoutX="460.0" layoutY="14.0" prefHeight="325.0" prefWidth="347.0" stylesheets="@../css/dashboard.css">
-                                       <children>
-                                          <BarChart fx:id="dashboard_ICChart" layoutX="-22.0" prefHeight="325.6" prefWidth="347.2" title="Income Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <xAxis>
-                                                <CategoryAxis side="BOTTOM" />
-                                             </xAxis>
-                                             <yAxis>
-                                                <NumberAxis side="LEFT" />
-                                             </yAxis>
-                                          </BarChart>
-                                       </children>
-                                       <styleClass>
-                                          <String fx:value="white-bg" />
-                                          <String fx:value="shadow" />
-                                       </styleClass>
-                                    </AnchorPane>
-                                 </children>
-                              </AnchorPane>
+                              </VBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="availableFD_form" layoutX="142.0" layoutY="42.0" prefHeight="552.0" prefWidth="894.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="availableFD_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0" styleClass="background" visible="false">
                            <children>
-                              <AnchorPane layoutX="27.0" layoutY="13.0" prefHeight="530.0" prefWidth="240.0" stylesheets="@../css/dashboard.css">
-                                 <styleClass>
-                                    <String fx:value="shadow" />
-                                    <String fx:value="white-bg" />
-                                 </styleClass>
+                              <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="35.0" text="ProductId" />
-                                    <TextField fx:id="availableFD_productID" layoutX="76.0" layoutY="31.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
-                                    <Label layoutX="14.0" layoutY="73.0" text="ProductName" />
-                                    <TextField fx:id="availableFD_productName" layoutX="76.0" layoutY="69.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
-                                    <Label layoutX="14.0" layoutY="115.0" text="Type" />
-                                    <Label layoutX="14.0" layoutY="163.0" text="Price" />
-                                    <TextField fx:id="availableFD_productPrice" layoutX="76.0" layoutY="159.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
-                                    <ComboBox fx:id="availableFD_productType" layoutX="76.0" layoutY="120.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboard.css" />
-                                    <Label layoutX="14.0" layoutY="198.0" text="Status" />
-                                    <ComboBox fx:id="availableFD_productStatus" layoutX="76.0" layoutY="203.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboard.css" />
-                                    <Button fx:id="availableFD_addBtn" layoutX="25.0" layoutY="253.0" mnemonicParsing="false" onAction="#availableFDAdd" text="Add" />
-                                    <Button fx:id="availableFD_updateBtn" layoutX="125.0" layoutY="253.0" mnemonicParsing="false" onAction="#availableFDUpdate" text="Update" />
-                                    <Button fx:id="availableFD_clearBtn" layoutX="25.0" layoutY="304.0" mnemonicParsing="false" onAction="#availableFDClear" text="Clear" />
-                                    <Button fx:id="availableFD_deleteBtn" layoutX="125.0" layoutY="304.0" mnemonicParsing="false" onAction="#availableFDDelete" text="Delete" />
+                                    <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0">
+                                       <children>
+                                          <Label styleClass="label-title" text="Available Foods/Drinks">
+                                             <VBox.margin>
+                                                <Insets top="16.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
+                                             <children>
+                                                <Label styleClass="label-heading" text="ProductId" />
+                                                <Region prefHeight="50.0" prefWidth="72.0" />
+                                                <TextField fx:id="availableFD_productID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="8.0" top="24.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
+                                             <children>
+                                                <Label styleClass="label-heading" text="ProductName" />
+                                                <Region prefHeight="50.0" prefWidth="50.0" />
+                                                <TextField fx:id="availableFD_productName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="8.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
+                                             <children>
+                                                <Label styleClass="label-heading" text="Type" />
+                                                <Region prefHeight="200.0" prefWidth="103.0" />
+                                                <ComboBox fx:id="availableFD_productType" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboard.css" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="8.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
+                                             <children>
+                                                <Label styleClass="label-heading" text="Price" />
+                                                <Region prefHeight="200.0" prefWidth="102.0" />
+                                                <TextField fx:id="availableFD_productPrice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="8.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="310.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
+                                             <children>
+                                                <Label styleClass="label-heading" text="Status" />
+                                                <Region prefHeight="200.0" prefWidth="94.0" />
+                                                <ComboBox fx:id="availableFD_productStatus" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboard.css" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="8.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="400.0">
+                                             <children>
+                                                <Button fx:id="availableFD_clearBtn" mnemonicParsing="false" onAction="#availableFDClear" prefHeight="32.0" prefWidth="72.0" styleClass="clear-delete-btn" text="Clear" />
+                                                <Button fx:id="availableFD_addBtn" mnemonicParsing="false" onAction="#availableFDAdd" prefHeight="32.0" prefWidth="72.0" styleClass="add-update-btn" text="Add">
+                                                   <HBox.margin>
+                                                      <Insets left="16.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="8.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="382.0" prefHeight="40.0" prefWidth="400.0">
+                                             <children>
+                                                <Button fx:id="availableFD_deleteBtn" mnemonicParsing="false" onAction="#availableFDDelete" prefHeight="32.0" prefWidth="72.0" styleClass="clear-delete-btn" text="Delete" />
+                                                <Button fx:id="availableFD_updateBtn" mnemonicParsing="false" onAction="#availableFDUpdate" prefHeight="32.0" prefWidth="72.0" styleClass="add-update-btn" text="Update">
+                                                   <HBox.margin>
+                                                      <Insets left="16.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="8.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="12.0" right="36.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                    <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="580.0">
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="240.0" styleClass="search">
+                                             <children>
+                                                <TextField fx:id="availableFD_search" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#availableFDSearch" prefHeight="40.0" prefWidth="220.0" promptText="Search" styleClass="search-text-field" />
+                                                <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/magnifying-glass-solid.png" />
+                                                   </image>
+                                                   <HBox.margin>
+                                                      <Insets right="16.0" />
+                                                   </HBox.margin>
+                                                </ImageView>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <TableView fx:id="availableFD_tableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#availableFDSelect" prefHeight="506.0" prefWidth="580.0">
+                                             <columns>
+                                                <TableColumn fx:id="availableFD_col_productID" prefWidth="95.20001220703125" text="ProductId" />
+                                                <TableColumn fx:id="availableFD_col_productName" prefWidth="164.79998016357422" text="ProductName" />
+                                                <TableColumn fx:id="availableFD_col_Type" prefWidth="100.0" text="Type" />
+                                                <TableColumn fx:id="availableFD_col_Price" prefWidth="108.0001220703125" text="Price" />
+                                                <TableColumn fx:id="availableFD_col_Status" prefWidth="104.79995727539062" text="Status" />
+                                             </columns>
+                                             <VBox.margin>
+                                                <Insets top="28.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </VBox>
                                  </children>
-                              </AnchorPane>
-                              <AnchorPane layoutX="293.0" layoutY="13.0" prefHeight="530.0" prefWidth="584.0" stylesheets="@../css/dashboard.css">
-                                 <styleClass>
-                                    <String fx:value="shadow" />
-                                    <String fx:value="white-bg" />
-                                 </styleClass>
-                                 <children>
-                                    <TextField fx:id="availableFD_search" layoutX="37.0" layoutY="14.0" onKeyTyped="#availableFDSearch" prefHeight="26.0" prefWidth="492.0" promptText="Search" />
-                                    <TableView fx:id="availableFD_tableView" layoutX="14.0" layoutY="65.0" onMouseClicked="#availableFDSelect" prefHeight="449.0" prefWidth="557.0">
-                                      <columns>
-                                        <TableColumn fx:id="availableFD_col_productID" prefWidth="95.20001220703125" text="ProductId" />
-                                        <TableColumn fx:id="availableFD_col_productName" prefWidth="155.20004272460938" text="ProductName" />
-                                          <TableColumn fx:id="availableFD_col_Type" prefWidth="108.00006103515625" text="Type" />
-                                          <TableColumn fx:id="availableFD_col_Price" prefWidth="99.199951171875" text="Price" />
-                                          <TableColumn fx:id="availableFD_col_Status" prefWidth="99.19989013671875" text="Status" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </AnchorPane>
-                              <Separator layoutX="277.0" layoutY="14.0" orientation="VERTICAL" prefHeight="531.0" prefWidth="6.0" />
+                              </HBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="order_form" layoutX="104.0" layoutY="86.0" prefHeight="552.0" prefWidth="894.4" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="order_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0" visible="false">
                            <children>
-                              <AnchorPane layoutX="18.0" layoutY="13.0" prefHeight="522.0" prefWidth="488.0" stylesheets="@../css/dashboard.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
+                              <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                                  <children>
-                                    <TableView fx:id="order_tableView" layoutX="14.0" layoutY="21.0" prefHeight="487.0" prefWidth="458.0">
-                                      <columns>
-                                        <TableColumn fx:id="order_col_productID" prefWidth="75.0" text="ProductID" />
-                                        <TableColumn fx:id="order_col_productName" prefWidth="120.79998016357422" text="ProductName" />
-                                          <TableColumn fx:id="order_col_type" prefWidth="83.20001220703125" text="Type" />
-                                          <TableColumn fx:id="order_col_price" prefWidth="89.5999755859375" text="Price" />
-                                          <TableColumn fx:id="order_col_quantity" prefWidth="88.800048828125" text="Quantity" />
-                                      </columns>
-                                    </TableView>
+                                    <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="656.0">
+                                       <children>
+                                          <Label styleClass="label-title" text="Order">
+                                             <VBox.margin>
+                                                <Insets top="16.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <TableView fx:id="order_tableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#orderSelectData" prefHeight="508.0" prefWidth="656.0">
+                                             <columns>
+                                                <TableColumn fx:id="order_col_productID" prefWidth="113.60006713867188" text="ProductID" />
+                                                <TableColumn fx:id="order_col_productName" prefWidth="177.5999755859375" text="ProductName" />
+                                                <TableColumn fx:id="order_col_type" prefWidth="126.4000244140625" text="Type" />
+                                                <TableColumn fx:id="order_col_price" prefWidth="95.2000732421875" text="Price" />
+                                                <TableColumn fx:id="order_col_quantity" prefWidth="134.13336181640625" text="Quantity" />
+                                             </columns>
+                                             <VBox.margin>
+                                                <Insets top="24.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="12.0" right="36.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                    <VBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="331.0">
+                                       <children>
+                                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="331.0">
+                                             <children>
+                                                <Label styleClass="label-order-info" text="Customer's Order">
+                                                   <VBox.margin>
+                                                      <Insets top="16.0" />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <HBox alignment="CENTER_LEFT" layoutX="34.0" layoutY="340.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Label styleClass="label-heading" text="Cus's Phone " />
+                                                      <TextField fx:id="cus_id_field" onMouseClicked="#getCurrentDateTime" prefHeight="30.0" prefWidth="180.0" promptText="eg: 1" styleClass="textfield">
+                                                         <HBox.margin>
+                                                            <Insets left="28.0" />
+                                                         </HBox.margin>
+                                                      </TextField>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="24.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Label styleClass="label-heading" text="ProductID" />
+                                                      <Region prefHeight="30.0" prefWidth="42.0" />
+                                                      <ComboBox fx:id="order_productID" onMouseClicked="#orderProductId" prefHeight="30.0" prefWidth="180.0" promptText="Choose..." styleClass="textfield" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="12.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Label styleClass="label-heading" text="ProductName" />
+                                                      <Region prefHeight="30.0" prefWidth="21.0" />
+                                                      <ComboBox fx:id="order_productName" onMouseClicked="#orderProductName" prefHeight="30.0" prefWidth="180.0" promptText="Choose..." styleClass="textfield" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="12.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Label styleClass="label-heading" text="Quantity" />
+                                                      <Region prefHeight="30.0" prefWidth="52.0" />
+                                                      <Spinner fx:id="order_quantity" onMouseClicked="#orderQuantity" prefHeight="30.0" prefWidth="180.0" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="12.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Button fx:id="order_addBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#orderAdd" prefHeight="24.0" prefWidth="60.0" styleClass="add-update-btn" text="Add" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="8.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <Label styleClass="label-order-info" text="Price" />
+                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Label styleClass="label-heading" text="Total:" />
+                                                      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" styleClass="textfield">
+                                                         <children>
+                                                            <Label fx:id="order_total" styleClass="label-heading" text="0.0" />
+                                                            <Label styleClass="label-heading" text="\$" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets left="8.0" />
+                                                         </padding>
+                                                         <HBox.margin>
+                                                            <Insets left="70.0" />
+                                                         </HBox.margin>
+                                                      </HBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="24.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Label styleClass="label-heading" text="Amount:" />
+                                                      <TextField fx:id="order_amount" onAction="#orderAmount" prefHeight="30.0" prefWidth="180.0" promptText="0.0$" styleClass="textfield">
+                                                         <HBox.margin>
+                                                            <Insets left="54.0" />
+                                                         </HBox.margin></TextField>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="12.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Label styleClass="label-heading" text="Balance:" />
+                                                      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" styleClass="textfield">
+                                                         <children>
+                                                            <Label fx:id="order_balance" styleClass="label-heading" text="0.0">
+                                                               <HBox.margin>
+                                                                  <Insets left="8.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                            <Label styleClass="label-heading" text="\$" />
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="53.0" />
+                                                         </HBox.margin>
+                                                      </HBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="12.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_RIGHT" layoutX="34.0" layoutY="207.0" prefHeight="30.0" prefWidth="331.0">
+                                                   <children>
+                                                      <Button fx:id="order_removeBtn" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#orderRemove" prefHeight="24.0" styleClass="clear-delete-btn" text="Remove">
+                                                         <HBox.margin>
+                                                            <Insets right="8.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button fx:id="order_payBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#orderPay" prefHeight="24.0" prefWidth="60.0" styleClass="add-update-btn" text="Pay" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets right="24.0" top="8.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="24.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets left="24.0" top="8.0" />
+                                             </padding>
+                                             <styleClass>
+                                                <String fx:value="customer-order-pane" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </AnchorPane>
-                              <AnchorPane layoutX="537.0" layoutY="13.0" prefHeight="522.0" prefWidth="319.0" stylesheets="@../css/dashboard.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                                 <children>
-                                    <Label layoutX="47.0" layoutY="50.0" text="productID" />
-                                    <ComboBox fx:id="order_productID" layoutX="117.0" layoutY="46.0" onMouseClicked="#orderProductId" prefWidth="150.0" promptText="Choose..." />
-                                    <Label layoutX="49.0" layoutY="101.0" text="productName" />
-                                    <ComboBox fx:id="order_productName" layoutX="119.0" layoutY="97.0" onMouseClicked="#orderProductName" prefWidth="150.0" promptText="Choose..." />
-                                    <Label layoutX="51.0" layoutY="154.0" text="Quantity" />
-                                    <Spinner fx:id="order_quantity" layoutX="118.0" layoutY="150.0" onMouseClicked="#orderQuantity" />
-                                    <Button fx:id="order_addBtn" layoutX="237.0" layoutY="208.0" mnemonicParsing="false" text="Add" />
-                                    <Label layoutX="72.0" layoutY="261.0" text="Total" />
-                                    <Label layoutX="72.0" layoutY="301.0" text="Amount" />
-                                    <Label fx:id="order_total" layoutX="123.0" layoutY="261.0" prefHeight="18.0" prefWidth="126.0" text="\$0.0" />
-                                    <TextField fx:id="order_amount" layoutX="107.0" layoutY="297.0" promptText="\$0.0" />
-                                    <Button fx:id="order_payBtn" layoutX="54.0" layoutY="371.0" mnemonicParsing="false" text="Pay" />
-                                    <Button fx:id="order_receiptBtn" layoutX="156.0" layoutY="373.0" mnemonicParsing="false" text="Receipt" />
-                                    <Button fx:id="order_removeBtn" layoutX="54.0" layoutY="431.0" mnemonicParsing="false" text="Remove" />
-                                 </children>
-                              </AnchorPane>
-                              <Separator layoutX="516.0" layoutY="13.0" orientation="VERTICAL" prefHeight="526.0" prefWidth="0.0" />
+                              </HBox>
                            </children>
                         </AnchorPane>
                      </children>
-                  </AnchorPane>
+                     <BorderPane.margin>
+                        <Insets left="20.0" top="20.0" />
+                     </BorderPane.margin>
+                  </StackPane>
                </center>
             </BorderPane>
          </children>
