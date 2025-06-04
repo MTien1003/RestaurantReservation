@@ -1,7 +1,6 @@
 package com.restaurant.reservationsystem.dao;
 
 import com.restaurant.reservationsystem.config.DatabaseConfig;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class dashboardDAO {
+
     public int getTotalCustomerOrder() {
-        String sql = "SELECT COUNT(DISTINCT customer_id) AS total_customerOrder FROM Invoice";
+        String sql = "SELECT COUNT(DISTINCT phone) AS total_customerOrder FROM Invoice";
         int totalCount = 0;
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql);
@@ -25,9 +25,6 @@ public class dashboardDAO {
         }
         return totalCount;
     }
-
-
-
 
     public double getTotalIncomeForToday() {
         String sql =" SELECT SUM(total) AS total_income FROM Invoice WHERE date = ?";
@@ -47,7 +44,6 @@ public class dashboardDAO {
         return totalIncome;
     }
 
-
     public double getTotalIncome() {
         String sql = "SELECT SUM(total) AS total_income FROM Invoice";
         double totalIncome = 0;
@@ -65,7 +61,7 @@ public class dashboardDAO {
     }
 
     public Map<String, Integer> getNumberOfOrdersByDate() {
-        String sql = "SELECT date, COUNT(DISTINCT customer_id) AS total_count FROM Invoice GROUP BY date ORDER BY date ASC";
+        String sql = "SELECT date, COUNT(DISTINCT phone) AS total_count FROM Invoice GROUP BY date ORDER BY date ASC";
         Map<String, Integer> ordersByDate = new LinkedHashMap<>();
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql);

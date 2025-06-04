@@ -16,18 +16,14 @@ public class orderDAO {
     private Statement statement;
     private ResultSet result;
 
-    public boolean addOrder(int customerId, String productId, int quantity, Timestamp dateTime) {
-        String sql = "INSERT INTO Orders ( product_id, customer_id, date, quantity) VALUES ( ?, ?, ?, ?)";
+    public boolean addOrder(String phone, String productId, int quantity, Timestamp dateTime) {
+        String sql = "INSERT INTO Orders ( product_id, phone, date, quantity) VALUES ( ?, ?, ?, ?)";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
-
-
             prepare.setString(1, productId);
-            prepare.setInt(2, customerId);
+            prepare.setString(2, phone);
             prepare.setTimestamp(3, dateTime);
             prepare.setInt(4, quantity);
-
-
             prepare.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -40,7 +36,6 @@ public class orderDAO {
         String sql = "SELECT type, price FROM Product WHERE product_id = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
-
             prepare.setString(1, productId);
             try (ResultSet result = prepare.executeQuery()) {
                 if (result.next()) {
@@ -57,19 +52,13 @@ public class orderDAO {
     }
 
 
-
-
-
-        public boolean addPayment(int customerId, double total, Date date) {
-            String sql = "INSERT INTO Invoice(customer_id,total, date) VALUES(?, ?, ?)";
+        public boolean addPayment(String phone, double total, Date date) {
+            String sql = "INSERT INTO Invoice(phone,total, date) VALUES(?, ?, ?)";
             try (Connection connect = DatabaseConfig.getConnection();
                  PreparedStatement prepare = connect.prepareStatement(sql)) {
-
-                prepare.setInt(1,  customerId);
+                prepare.setString(1,  phone);
                 prepare.setDouble(2, total);
                 prepare.setDate(3, date);
-
-
                 prepare.executeUpdate();
                 return true;
             } catch (Exception e) {
@@ -78,13 +67,12 @@ public class orderDAO {
             }
         }
 
-    public double getTotalPrice(int customerId, Timestamp dateTime) {
-        String sql = "SELECT SUM(o.quantity * p.price) AS total_price FROM Orders o JOIN Product p ON o.product_id = p.product_id WHERE customer_id = ? AND o.date = ?";
+    public double getTotalPrice(String phone, Timestamp dateTime) {
+        String sql = "SELECT dbo.fn_TinhTongTienDonHang(?, ?) AS total_price;";
 
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
-
-            prepare.setInt(1, customerId);
+            prepare.setString(1, phone);
             prepare.setTimestamp(2, dateTime);
             try (ResultSet result = prepare.executeQuery()) {
                 if (result.next()) {
@@ -97,17 +85,13 @@ public class orderDAO {
         return 0;
     }
 
-    public ObservableList<Orders> getOrderListData( Timestamp datetime) {
+    public ObservableList<Orders> getOrderListData( Timestamp datetime, String phone) {
         ObservableList<Orders> listData = FXCollections.observableArrayList();
-        String sql = "SELECT o.order_id, o.product_id, p.product_name, p.type, p.price, o.quantity " +
-                "FROM Orders o " +
-                "JOIN Product p ON o.product_id = p.product_id " +
-                "WHERE  o.date = ?";
+        String sql = "EXEC GetOrdersByDateAndPhone ?, ?;";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
-
-
             prepare.setTimestamp(1, datetime);
+            prepare.setString(2, phone);
             try (ResultSet result = prepare.executeQuery()) {
                 while (result.next()) {
                     Orders order = new Orders(
@@ -143,10 +127,6 @@ public class orderDAO {
     }
 
 
-
-
-
-
     public ObservableList<String> getAvailableProductIds() {
         String sql = "SELECT product_id FROM Product WHERE status='Available'";
         ObservableList<String> productIds = FXCollections.observableArrayList();
@@ -154,7 +134,6 @@ public class orderDAO {
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql);
              ResultSet result = prepare.executeQuery()) {
-
             while (result.next()) {
                 productIds.add(result.getString("product_id"));
             }
@@ -168,10 +147,8 @@ public class orderDAO {
     public ObservableList<String> getProductNames(String productId) {
         String sql = "SELECT product_name FROM Product WHERE product_id = ?";
         ObservableList<String> productNames = FXCollections.observableArrayList();
-
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
-
             prepare.setString(1, productId);
             try (ResultSet result = prepare.executeQuery()) {
                 while (result.next()) {
@@ -184,11 +161,11 @@ public class orderDAO {
         return productNames;
     }
 
-    public boolean isCustomerIdExists(int customerId) {
-        String query = "SELECT COUNT(*) FROM Customer WHERE customer_id = ?";
+    public boolean isCustomerIdExists(String phone) {
+        String query = "SELECT COUNT(*) FROM Customer WHERE phone = ?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, customerId);
+            preparedStatement.setString(1, phone);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1) > 0;

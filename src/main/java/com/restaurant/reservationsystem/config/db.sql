@@ -7,34 +7,29 @@
 )
 
 Create table Customer(
-	customer_id int primary key,
+	customer_id int identity(1,1),
 	customer_name varchar(100),
-	phone varchar(20),
+	phone varchar(20) primary key,
 	address varchar(100)
 )
 
 Create table Orders(
 	order_id int identity(1,1) primary key,
 	product_id varchar (50),
-	customer_id int,
-	date datetime,
+	phone varchar(20),
+	date datetime2(3),
 	quantity int,
 	foreign key (product_id) references Product(product_id),
-	foreign key (customer_id) references Customer(customer_id)
+	foreign key (phone) references Customer(phone)
 )
-drop table Orders
--- Thêm sản phẩm
-INSERT INTO Product (product_id, product_name, type, price, status)
-VALUES ('P001', 'Laptop HP Pavilion', 'Electronics', 850.0, 'In Stock');
 
--- Thêm khách hàng
-INSERT INTO Customer (customer_id, customer_name, phone, address)
-VALUES (101, 'Nguyen Van A', '0901234567', '123 Le Loi, Ha Noi');
-
--- Thêm đơn hàng
-INSERT INTO Orders (product_id, customer_id, date, quantity)
-VALUES ('P001', 101, GETDATE(), 2);
-
+create table Invoice(
+	invoice_id int identity(1,1) primary key,
+	phone varchar(20),
+	total float,
+	date date,
+	foreign key (phone) references Customer(phone)
+)
 
 Create table Admin (
 	id int primary key,
@@ -42,25 +37,64 @@ Create table Admin (
 	password varchar(50)
 )
 
-create table Invoice(
-	invoice_id int identity(1,1) primary key,
-	customer_id int,
-	total float,
-	date date,
-	foreign key (customer_id) references Customer(customer_id)
-)
-INSERT INTO Admin
-VALUES (1,'Manh Tien','123')
+drop table Orders
+drop table Invoice
+drop table Customer
 
-INSERT INTO Customer (customer_id)
-VALUES (1)
-
-truncate table customer
 DELETE FROM Orders;
 DELETE FROM Invoice;
 DELETE FROM Customer;
 
 
-SELECT * FROM Orders o JOIN Product p ON o.product_id=p.product_id WHERE customer_id = 1 AND date = '2025-06-02 16:08:15.070'
-ALTER TABLE Orders ALTER COLUMN date datetime2(3);
+CREATE TRIGGER trg_check_phone_after_insert
+ON Customer
+AFTER INSERT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM inserted
+        WHERE LEN(phone) != 10
+           OR PATINDEX('%[^0-9]%', phone) > 0
+           OR LEFT(phone, 1) != '0'
+    )
+    BEGIN
+        RAISERROR('Số điện thoại không hợp lệ! Phải có đúng 10 chữ số và bắt đầu bằng số 0.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+
+
+CREATE FUNCTION fn_TinhTongTienDonHang (
+    @Phone NVARCHAR(20),
+    @Date datetime2(3)
+)
+RETURNS DECIMAL(18, 2)
+AS
+BEGIN
+    DECLARE @TotalPrice DECIMAL(18, 2);
+
+    SELECT @TotalPrice = SUM(o.quantity * p.price)
+    FROM Orders o
+    JOIN Product p ON o.product_id = p.product_id
+    WHERE o.phone = @Phone AND o.date = @Date;
+
+    RETURN ISNULL(@TotalPrice, 0);  --đảm bảo nếu không có kết quả thì trả về 0 thay vì NULL.
+END;
+
+
+
+CREATE PROCEDURE GetOrdersByDateAndPhone
+    @in_date datetime2(3),
+    @in_phone VARCHAR(20)
+AS
+BEGIN
+    SELECT o.order_id, o.product_id, p.product_name, p.type, p.price, o.quantity
+    FROM Orders o
+    JOIN Product p ON o.product_id = p.product_id
+    WHERE o.date = @in_date AND o.phone = @in_phone;
+END;
+
+
+
 

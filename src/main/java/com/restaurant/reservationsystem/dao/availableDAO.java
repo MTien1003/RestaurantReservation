@@ -4,7 +4,6 @@ import com.restaurant.reservationsystem.config.DatabaseConfig;
 import com.restaurant.reservationsystem.models.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +29,6 @@ public class availableDAO {
         }
 
     }
-
 
     public ObservableList<Product> getAllProduct() {
         ObservableList<Product> productList = FXCollections.observableArrayList();
@@ -71,17 +69,15 @@ public class availableDAO {
         }
     }
 
-
     public boolean updateProduct(String productId, String productName, String productType, String price, String status) {
         String sql = "UPDATE Product SET product_name=?, type=?, price=?, status=? WHERE product_id=?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
-
-            prepare.setString(1, productName);
-            prepare.setString(2, productType);
-            prepare.setString(3, price);
-            prepare.setString(4, status);
-            prepare.setString(5, productId);
+                prepare.setString(1, productName);
+                prepare.setString(2, productType);
+                prepare.setString(3, price);
+                prepare.setString(4, status);
+                prepare.setString(5, productId);
 
             int rowsUpdated = prepare.executeUpdate();
             return rowsUpdated > 0;
