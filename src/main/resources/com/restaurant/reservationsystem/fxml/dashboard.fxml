@@ -290,7 +290,7 @@
                               </VBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="availableFD_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0" styleClass="background">
+                        <AnchorPane fx:id="availableFD_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0" styleClass="background" visible="false">
                            <children>
                               <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                                  <children>
@@ -303,7 +303,7 @@
                                           </Label>
                                           <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
                                              <children>
-                                                <Label styleClass="label-heading" text="ProductId" />
+                                                <Label prefHeight="18.0" prefWidth="63.0" styleClass="label-heading" text="ProductId" />
                                                 <Region prefHeight="50.0" prefWidth="72.0" />
                                                 <TextField fx:id="availableFD_productID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
                                              </children>
@@ -313,7 +313,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
                                              <children>
-                                                <Label styleClass="label-heading" text="ProductName" />
+                                                <Label prefHeight="18.0" prefWidth="83.0" styleClass="label-heading" text="ProductName" />
                                                 <Region prefHeight="50.0" prefWidth="50.0" />
                                                 <TextField fx:id="availableFD_productName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" styleClass="textfield" stylesheets="@../css/dashboard.css" />
                                              </children>
@@ -323,7 +323,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
                                              <children>
-                                                <Label styleClass="label-heading" text="Type" />
+                                                <Label prefHeight="18.0" prefWidth="29.0" styleClass="label-heading" text="Type" />
                                                 <Region prefHeight="200.0" prefWidth="103.0" />
                                                 <ComboBox fx:id="availableFD_productType" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboard.css" />
                                              </children>
@@ -343,8 +343,8 @@
                                           </HBox>
                                           <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="310.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="400.0">
                                              <children>
-                                                <Label styleClass="label-heading" text="Status" />
-                                                <Region prefHeight="200.0" prefWidth="94.0" />
+                                                <Label prefHeight="18.0" prefWidth="42.0" styleClass="label-heading" text="Status" />
+                                                <Region prefHeight="40.0" prefWidth="89.0" />
                                                 <ComboBox fx:id="availableFD_productStatus" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="268.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboard.css" />
                                              </children>
                                              <VBox.margin>
@@ -353,9 +353,9 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
                                              <children>
-                                                <Label styleClass="label-heading" text="Quantity" />
-                                                <Region prefHeight="30.0" prefWidth="80.0" />
-                                                <Spinner onMouseClicked="#orderQuantity" prefHeight="30.0" prefWidth="268.0" />
+                                                <Label prefHeight="18.0" prefWidth="61.0" styleClass="label-heading" text="Quantity" />
+                                                <Region prefHeight="30.0" prefWidth="82.0" />
+                                                <Spinner fx:id="quantity" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#availableQuantity" prefHeight="30.0" prefWidth="268.0" />
                                              </children>
                                              <VBox.margin>
                                                 <Insets bottom="8.0" />
@@ -431,7 +431,7 @@
                               </HBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="order_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0" visible="false">
+                        <AnchorPane fx:id="order_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                            <children>
                               <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1068.0">
                                  <children>
@@ -503,8 +503,8 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="331.0">
                                                    <children>
-                                                      <Label styleClass="label-heading" text="Quantity" />
-                                                      <Region prefHeight="30.0" prefWidth="52.0" />
+                                                      <Label prefHeight="18.0" prefWidth="66.0" styleClass="label-heading" text="Quantity" />
+                                                      <Region prefHeight="30.0" prefWidth="31.0" />
                                                       <Spinner fx:id="order_quantity" onMouseClicked="#orderQuantity" prefHeight="30.0" prefWidth="180.0" />
                                                    </children>
                                                    <VBox.margin>

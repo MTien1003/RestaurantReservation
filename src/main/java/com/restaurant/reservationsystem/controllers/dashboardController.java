@@ -71,10 +71,10 @@ public class dashboardController implements Initializable  {
     private TextField availableFD_productPrice;
 
     @FXML
-    private ComboBox<?> availableFD_productStatus;
+    private ComboBox<String> availableFD_productStatus;
 
     @FXML
-    private ComboBox<?> availableFD_productType;
+    private ComboBox<String> availableFD_productType;
 
     @FXML
     private TextField availableFD_search;
@@ -147,6 +147,9 @@ public class dashboardController implements Initializable  {
 
     @FXML
     private Spinner<Integer> order_quantity;
+
+    @FXML
+    private Spinner<Integer> quantity;
 
     @FXML
     private Button order_receiptBtn;
@@ -288,7 +291,7 @@ public class dashboardController implements Initializable  {
             if (availableDAO.isProductIdExists(productId)) {
                 AlertUtils.showErrorAlert("Error", "Product ID already exists");
             } else {
-                boolean success = availableDAO.addProduct(productId, productName, productType, productPrice, productStatus);
+                boolean success = availableDAO.addProduct(productId, productName, productType, productPrice, productStatus, avail_quantity);
                 if (success) {
                     AlertUtils.showInfoAlert("Success", "Product added successfully");
                     availableFDShowData();
@@ -305,12 +308,13 @@ public class dashboardController implements Initializable  {
         String productType = (String)availableFD_productType.getSelectionModel().getSelectedItem();
         String productPrice = availableFD_productPrice.getText();
         String productStatus = (String)availableFD_productStatus.getSelectionModel().getSelectedItem();
+        int quantityValue = (int) quantity.getValue();
 
         Alert alert;
         if (productId.isEmpty() || productName.isEmpty() || productPrice.isEmpty() || productType == null || productStatus == null) {
             AlertUtils.showErrorAlert("Error", "Please fill all fields");
         } else {
-            boolean success = availableDAO.updateProduct(productId, productName, productType, productPrice, productStatus);
+            boolean success = availableDAO.updateProduct(productId, productName, productType, productPrice, productStatus, quantityValue);
             if (success) {
                 AlertUtils.showInfoAlert("Success", "Product updated successfully");
                 availableFDShowData();
@@ -344,6 +348,7 @@ public class dashboardController implements Initializable  {
         availableFD_productPrice.setText("");
         availableFD_productStatus.getSelectionModel().clearSelection();
         availableFD_productType.getSelectionModel().clearSelection();
+        quantity.getValueFactory().setValue(0);
     }
 
     private ObservableList<Product> availableFDListData;
@@ -370,6 +375,9 @@ public class dashboardController implements Initializable  {
         availableFD_productID.setText(catDate.getProductId());
         availableFD_productName.setText(catDate.getProductName());
         availableFD_productPrice.setText(String.valueOf(catDate.getPrice()));
+        availableFD_productType.getSelectionModel().select(catDate.getType());
+        availableFD_productStatus.getSelectionModel().select(catDate.getStatus());
+        quantity.getValueFactory().setValue(catDate.getQuantity());
 
     }
 
@@ -452,7 +460,7 @@ public class dashboardController implements Initializable  {
             order_productName.getSelectionModel().clearSelection();
             AlertUtils.showInfoAlert("Success", "Order added successfully.");
         } else {
-            AlertUtils.showErrorAlert("Error", "Failed to add order.");
+            AlertUtils.showErrorAlert("Error", "One or more order items exceed available stock!");
         }
     }
 
@@ -609,6 +617,17 @@ public class dashboardController implements Initializable  {
         qty= (int) order_quantity.getValue();
     }
 
+    private int avail_quantity;
+    public void availableQuantity(){
+        avail_quantity =(int) quantity.getValue();
+    }
+    private SpinnerValueFactory<Integer> SpinnerQuantity;
+    public void availableSpinner(){
+        SpinnerQuantity = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50, 0);
+        quantity.setValueFactory(SpinnerQuantity);
+    }
+
+
     public void switchForm(ActionEvent event){
         if (event.getSource() == availableFD_btn) {
             availableFD_form.setVisible(true);
@@ -617,6 +636,7 @@ public class dashboardController implements Initializable  {
 
             availableFDShowData();
             availableFDSearch();
+            availableSpinner();
 
 
         } else if (event.getSource() == order_btn) {
@@ -658,6 +678,7 @@ public class dashboardController implements Initializable  {
         availableFDType();
         availableFDShowData();
         availableFDSearch();
+        availableSpinner();
 
         orderProductId();
         orderProductName();

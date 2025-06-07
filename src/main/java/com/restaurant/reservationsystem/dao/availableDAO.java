@@ -43,7 +43,8 @@ public class availableDAO {
                         result.getString("ProductName"),
                         result.getString("CategoryName"),
                         result.getFloat("Price"),
-                        result.getString("Status")));
+                        result.getString("Status"),
+                        result.getInt("Quantity")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,8 +52,8 @@ public class availableDAO {
         return productList;
     }
 
-    public boolean addProduct(String productId, String productName, String productType, String price, String status) {
-        String sql = "INSERT INTO Product (ProductId, ProductName, CategoryName, Price, Status) VALUES (?, ?, ?, ?, ?)";
+    public boolean addProduct(String productId, String productName, String productType, String price, String status, int quantity) {
+        String sql = "INSERT INTO Product (ProductId, ProductName, CategoryName, Price, Status, Quantity) VALUES (?, ?, ?, ?, ?, ?)";
         connect = DatabaseConfig.getConnection();
         try {
             prepare = connect.prepareStatement(sql);
@@ -61,6 +62,7 @@ public class availableDAO {
             prepare.setString(3, productType);
             prepare.setString(4, price);
             prepare.setString(5, status);
+            prepare.setInt(6, quantity);
             prepare.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -69,15 +71,16 @@ public class availableDAO {
         }
     }
 
-    public boolean updateProduct(String productId, String productName, String productType, String price, String status) {
-        String sql = "UPDATE Product SET ProductName=?, CategoryName=?, Price=?, Status=? WHERE ProductId=?";
+    public boolean updateProduct(String productId, String productName, String productType, String price, String status, int quantity) {
+        String sql = "UPDATE Product SET ProductName=?, CategoryName=?, Price=?, Status=?, Quantity=? WHERE ProductId=?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
                 prepare.setString(1, productName);
                 prepare.setString(2, productType);
                 prepare.setString(3, price);
                 prepare.setString(4, status);
-                prepare.setString(5, productId);
+                prepare.setInt(5, quantity);
+                prepare.setString(6, productId);
 
             int rowsUpdated = prepare.executeUpdate();
             return rowsUpdated > 0;

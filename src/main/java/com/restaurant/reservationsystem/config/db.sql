@@ -3,6 +3,7 @@
 	ProductName varchar(50),
 	Price float,
 	Status varchar(50),
+	Quantity int,
 	CategoryName varchar(50),
 	ManagerId int,
 	foreign key (CategoryName) references Categories(CategoryName),
@@ -91,6 +92,40 @@ BEGIN
 END;
 
 
+CREATE TRIGGER trg_UpdateStockOnOrder_MultiRow
+ON Orders
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra nếu có bất kỳ đơn hàng nào vượt quá tồn kho
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        JOIN Product p ON i.ProductId = p.ProductId
+        WHERE i.Quantity > p.Quantity
+    )
+    BEGIN
+        RAISERROR('One or more order items exceed available stock!', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Cập nhật số lượng tồn kho
+    UPDATE p
+    SET p.Quantity = p.Quantity - i.Quantity
+    FROM Product p
+    JOIN inserted i ON p.ProductId = i.ProductId;
+
+    -- Cập nhật trạng thái sản phẩm nếu số lượng về 0
+    UPDATE p
+    SET p.Status = 'Not Available'
+    FROM Product p
+    WHERE p.Quantity = 0;
+END;
+
+
 
 CREATE FUNCTION fn_TinhTongTienDonHang (
     @Phone NVARCHAR(20),
@@ -131,22 +166,23 @@ INSERT INTO Managers VALUES (2,'Thinh','Thinh','123')
 INSERT INTO Categories VALUES ('Drink')
 INSERT INTO Categories VALUES ('Food')
 -- Sản phẩm thuộc danh mục cake
-INSERT INTO Product (ProductId, ProductName, Price, Status, CategoryName, ManagerId)
+INSERT INTO Product (ProductId, ProductName, Price, Status, CategoryName, ManagerId,Quantity)
 VALUES 
-('F001', 'Chocolate Cake', 15.99, 'Available', 'Food', 1),
-('F002', 'Vanilla Cake', 13.49, 'Available', 'Food', 1),
-('F003', 'Strawberry Cake', 14.25, 'Unavailable', 'Food', 1),
-('F004', 'Cheesecake', 17.50, 'Available', 'Food', 1),
-('F005', 'Red Velvet Cake', 16.00, 'Unavailable', 'Food', 1),
-('F006', 'Lemon Tart', 12.75, 'Available', 'Food', 1);
+('F001', 'Chocolate Cake', 15.99, 'Available', 'Food', 1,10),
+('F002', 'Vanilla Cake', 13.49, 'Available', 'Food', 1,10),
+('F003', 'Strawberry Cake', 14.25, 'Not Available', 'Food', 1,10),
+('F004', 'Cheesecake', 17.50, 'Available', 'Food', 1,10),
+('F005', 'Red Velvet Cake', 16.00, 'Not Available', 'Food', 1,10),
+('F006', 'Lemon Tart', 12.75, 'Available', 'Food', 1,10);
 
 -- Sản phẩm thuộc danh mục drink
-INSERT INTO Product (ProductId, ProductName, Price, Status, CategoryName, ManagerId)
+INSERT INTO Product (ProductId, ProductName, Price, Status, CategoryName, ManagerId,Quantity)
 VALUES 
-('D001', 'Green Tea', 2.99, 'Available', 'Drink', 1),
-('D002', 'Black Coffee', 3.49, 'Available', 'Drink', 1),
-('D003', 'Orange Juice', 3.99, 'Unavailable', 'Drink', 1),
-('D004', 'Latte', 3.99, 'Available', 'Drink', 1),
-('D005', 'Espresso', 2.49, 'Unavailable', 'Drink', 1),
-('D006', 'Iced Tea', 3.25, 'Available', 'Drink', 1);
+('D001', 'Green Tea', 2.99, 'Available', 'Drink', 1,10),
+('D002', 'Black Coffee', 3.49, 'Available', 'Drink', 1,10),
+('D003', 'Orange Juice', 3.99, 'Not Available', 'Drink', 1,10),
+('D004', 'Latte', 3.99, 'Available', 'Drink', 1,10),
+('D005', 'Espresso', 2.49, 'Not Available', 'Drink', 1,10),
+('D006', 'Iced Tea', 3.25, 'Available', 'Drink', 1,10);
+
 
