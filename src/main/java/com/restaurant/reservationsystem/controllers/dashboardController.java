@@ -263,7 +263,7 @@ public class dashboardController implements Initializable  {
         availableFD_productStatus.setItems(listData);
     }
 
-    private String[] categories={"Meals","Drinks"};
+    private String[] categories={"Food","Drink"};
     public void availableFDType(){
         List<String> listType= new ArrayList<>();
         for (String s:categories){
@@ -419,7 +419,7 @@ public class dashboardController implements Initializable  {
         }
         customerPhone = cus_id_field.getText();
         if (!orderDAO.isCustomerIdExists(customerPhone)) {
-            String sql = "INSERT INTO Customer(phone) VALUES (?)";
+            String sql = "INSERT INTO Customer(CustomerPhone) VALUES (?)";
             try (Connection connect = DatabaseConfig.getConnection();
                  PreparedStatement prepare = connect.prepareStatement(sql)) {
                  prepare.setString(1, customerPhone);
@@ -532,7 +532,7 @@ public class dashboardController implements Initializable  {
             }
             else{
                 balance=(amount-totalP);
-                order_balance.setText(String.valueOf(balance));
+                order_balance.setText(String.format("%.2f",balance));
             }
 
         }
@@ -607,7 +607,6 @@ public class dashboardController implements Initializable  {
     private int qty;
     public void orderQuantity(){
         qty= (int) order_quantity.getValue();
-        System.out.println(qty);
     }
 
     public void switchForm(ActionEvent event){

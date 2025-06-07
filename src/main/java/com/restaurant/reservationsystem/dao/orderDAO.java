@@ -17,7 +17,7 @@ public class orderDAO {
     private ResultSet result;
 
     public boolean addOrder(String phone, String productId, int quantity, Timestamp dateTime) {
-        String sql = "INSERT INTO Orders ( product_id, phone, date, quantity) VALUES ( ?, ?, ?, ?)";
+        String sql = "INSERT INTO Orders ( ProductId, CustomerPhone, Date, Quantity) VALUES ( ?, ?, ?, ?)";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
             prepare.setString(1, productId);
@@ -33,15 +33,15 @@ public class orderDAO {
     }
 
     public Map<String, Object> getProductDetails(String productId) {
-        String sql = "SELECT type, price FROM Product WHERE product_id = ?";
+        String sql = "SELECT CategoryName, Price FROM Product WHERE ProductId = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
             prepare.setString(1, productId);
             try (ResultSet result = prepare.executeQuery()) {
                 if (result.next()) {
                     Map<String, Object> productDetails = new HashMap<>();
-                    productDetails.put("type", result.getString("type"));
-                    productDetails.put("price", result.getDouble("price"));
+                    productDetails.put("type", result.getString("CategoryName"));
+                    productDetails.put("price", result.getDouble("Price"));
                     return productDetails;
                 }
             }
@@ -53,7 +53,7 @@ public class orderDAO {
 
 
         public boolean addPayment(String phone, double total, Date date) {
-            String sql = "INSERT INTO Invoice(phone,total, date) VALUES(?, ?, ?)";
+            String sql = "INSERT INTO Invoice(CustomerPhone,Total, Date) VALUES(?, ?, ?)";
             try (Connection connect = DatabaseConfig.getConnection();
                  PreparedStatement prepare = connect.prepareStatement(sql)) {
                 prepare.setString(1,  phone);
@@ -95,12 +95,12 @@ public class orderDAO {
             try (ResultSet result = prepare.executeQuery()) {
                 while (result.next()) {
                     Orders order = new Orders(
-                            result.getInt("order_id"),
-                            result.getString("product_id"),
-                            result.getString("product_name"),
-                            result.getString("type"),
-                            result.getDouble("price"),
-                            result.getInt("quantity")
+                            result.getInt("OrderId"),
+                            result.getString("ProductId"),
+                            result.getString("ProductName"),
+                            result.getString("CategoryName"),
+                            result.getDouble("Price"),
+                            result.getInt("Quantity")
                     );
                     listData.add(order);
                 }
@@ -113,7 +113,7 @@ public class orderDAO {
 
 
     public boolean removeOrder(int orderId) {
-        String sql = "DELETE FROM Orders WHERE order_id = ?";
+        String sql = "DELETE FROM Orders WHERE OrderId = ?";
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
 
@@ -128,14 +128,14 @@ public class orderDAO {
 
 
     public ObservableList<String> getAvailableProductIds() {
-        String sql = "SELECT product_id FROM Product WHERE status='Available'";
+        String sql = "SELECT ProductId FROM Product WHERE Status='Available'";
         ObservableList<String> productIds = FXCollections.observableArrayList();
 
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql);
              ResultSet result = prepare.executeQuery()) {
             while (result.next()) {
-                productIds.add(result.getString("product_id"));
+                productIds.add(result.getString("ProductId"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,14 +145,14 @@ public class orderDAO {
 
 
     public ObservableList<String> getProductNames(String productId) {
-        String sql = "SELECT product_name FROM Product WHERE product_id = ?";
+        String sql = "SELECT ProductName FROM Product WHERE ProductId = ?";
         ObservableList<String> productNames = FXCollections.observableArrayList();
         try (Connection connect = DatabaseConfig.getConnection();
              PreparedStatement prepare = connect.prepareStatement(sql)) {
             prepare.setString(1, productId);
             try (ResultSet result = prepare.executeQuery()) {
                 while (result.next()) {
-                    productNames.add(result.getString("product_name"));
+                    productNames.add(result.getString("ProductName"));
                 }
             }
         } catch (Exception e) {
@@ -162,7 +162,7 @@ public class orderDAO {
     }
 
     public boolean isCustomerIdExists(String phone) {
-        String query = "SELECT COUNT(*) FROM Customer WHERE phone = ?";
+        String query = "SELECT COUNT(*) FROM Customer WHERE CustomerPhone = ?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, phone);
