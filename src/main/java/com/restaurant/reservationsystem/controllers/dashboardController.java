@@ -229,12 +229,12 @@ public class dashboardController implements Initializable  {
     }
     public void dashboardTi() {
         double totalIncome = dashboardDAO.getTotalIncomeForToday();
-        dashboard_Ti.setText("$" + totalIncome);
+        dashboard_Ti.setText("$" + String.format("%.2f",totalIncome));
     }
 
     public void dashboardTincome() {
         double totalIncome = dashboardDAO.getTotalIncome();
-        dashboard_Tincome.setText("$" + totalIncome);
+        dashboard_Tincome.setText("$" +String.format("%.2f",totalIncome));
     }
 
     public void dashboardNOOChart() {
@@ -296,6 +296,7 @@ public class dashboardController implements Initializable  {
                     AlertUtils.showInfoAlert("Success", "Product added successfully");
                     availableFDShowData();
                     availableFDClear();
+                    availableFDSearch();
                 }
             }
         }
@@ -319,6 +320,7 @@ public class dashboardController implements Initializable  {
                 AlertUtils.showInfoAlert("Success", "Product updated successfully");
                 availableFDShowData();
                 availableFDClear();
+                availableFDSearch();
             } else {
                 AlertUtils.showErrorAlert("Error", "Failed to update product");
             }
@@ -336,6 +338,7 @@ public class dashboardController implements Initializable  {
                 AlertUtils.showInfoAlert("Success", "Product deleted successfully");
                 availableFDShowData();
                 availableFDClear();
+                availableFDSearch();
             } else {
                 AlertUtils.showErrorAlert("Error", "Failed to delete product");
             }
