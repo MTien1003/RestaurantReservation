@@ -6,13 +6,15 @@ public class Product {
     private String type;
     private float price;
     private String status;
+    private int quantity;
 
-    public Product(String productId, String productName, String type, float price, String status) {
+    public Product(String productId, String productName, String type, float price, String status, int quantity) {
         this.productId = productId;
         this.productName = productName;
         this.type = type;
         this.price = price;
         this.status = status;
+        this.quantity = quantity;
     }
     public String getProductId() {
         return productId;
@@ -43,6 +45,12 @@ public class Product {
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
 }
